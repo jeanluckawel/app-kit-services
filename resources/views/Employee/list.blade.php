@@ -176,16 +176,15 @@
 @endsection
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     $(document).ready(function () {
 
+        // AJAX search
         $('#searchEmployee').on('keyup', function () {
-
             let search = $(this).val();
-
             $.ajax({
                 url: "{{ route('employee.search') }}",
                 type: "GET",
@@ -194,10 +193,74 @@
                     $('#employeeTable').html(data);
                 }
             });
-
         });
+
+        // === SUCCESS MESSAGE ===
+        @if(session('success'))
+        Swal.fire({
+            title: 'Success!',
+            text: "{{ session('success') }}",
+            icon: 'success',
+            iconColor: '#FF6600',
+            background: '#fff',
+            color: '#333',
+            confirmButtonColor: '#FF6600',
+            confirmButtonText: 'Ok',
+            customClass: {
+                popup: 'shadow-lg rounded-2xl',
+                title: 'fw-bold fs-5',
+                content: 'fs-6'
+            },
+            timer: 3000,
+            timerProgressBar: true,
+        });
+        @endif
+
+        // === ERROR MESSAGE ===
+        @if(session('error'))
+        Swal.fire({
+            title: 'Error!',
+            text: "{{ session('error') }}",
+            icon: 'error',
+            iconColor: '#FF3300',
+            background: '#fff',
+            color: '#333',
+            confirmButtonColor: '#FF3300',
+            confirmButtonText: 'Ok',
+            customClass: {
+                popup: 'shadow-lg rounded-2xl',
+                title: 'fw-bold fs-5',
+                content: 'fs-6'
+            },
+        });
+        @endif
+
+        // === VALIDATION ERRORS ===
+        @if($errors->any())
+        let errorMessages = `
+        @foreach ($errors->all() as $error)
+        • {{ $error }} <br>
+        @endforeach
+        `;
+        Swal.fire({
+            title: 'Validation Errors!',
+            html: errorMessages,
+            icon: 'error',
+            iconColor: '#FF3300',
+            background: '#fff',
+            color: '#333',
+            confirmButtonColor: '#FF3300',
+            confirmButtonText: 'Ok',
+            customClass: {
+                popup: 'shadow-lg rounded-2xl',
+                title: 'fw-bold fs-5',
+                content: 'fs-6'
+            },
+        });
+        @endif
 
     });
 </script>
+
 
 

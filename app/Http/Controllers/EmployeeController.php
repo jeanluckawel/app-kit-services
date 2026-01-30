@@ -38,12 +38,178 @@ class EmployeeController extends Controller
      */
 
 
+//    public function store(Request $request)
+//    {
+//
+//        $validated = $request->validate([
+//            'first_name' => 'nullable| string',
+//            'last_name'  => 'nullable| string',
+//            'middle_name'=> 'nullable|string',
+//            'gender'     => 'nullable|string',
+//            'date_of_birth' => 'nullable|date',
+//            'number_card'   => 'nullable|string',
+//            'pays'          => 'nullable|string',
+//            'marital_status'=> 'nullable|string',
+//            'photo'         => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+//        ]);
+//
+//
+//        $addressData = $request->validate([
+//            'employee_number' => ' string',
+//            'employee_city'   => ' string',
+//            'employee_province' => ' string',
+//            'employee_phone'  => ' string',
+//            'employee_email'  => ' email',
+//            'employee_emergency_phone' => 'nullable|string',
+//        ]);
+//        $addressData = [
+//            'number' => $addressData['employee_number'],
+//            'city' => $addressData['employee_city'],
+//            'province' => $addressData['employee_province'],
+//            'phone' => $addressData['employee_phone'],
+//            'email' => $addressData['employee_email'],
+//            'emergency_phone' => $addressData['employee_emergency_phone'] ?? null,
+//        ];
+//
+//
+//        $companyData = $request->validate([
+//            'job_title' => ' string',
+//            'department'=> ' string',
+//            'section'   => ' string',
+//            'contract_type' => ' in:CDI,CDD,Stage,Consultant',
+//            'hire_date' => ' date',
+//            'end_contract_date' => [
+//                'nullable',
+//                'date',
+//                function ($attribute, $value, $fail) use ($request) {
+//                    if (in_array($request->contract_type, ['CDD','Stage','Consultant']) && empty($value)) {
+//                        $fail('End contract date is required for this contract type.');
+//                    }
+//                },
+//            ],
+//            'work_location' => ' string',
+//            'supervisor' => ' string',
+//            'employee_type' => ' in:Full Time,Part Time',
+//        ]);
+//
+//
+//        $salaryRequest = $request->validate([
+//            'salary_base_salary' => 'nullable|numeric',
+//            'salary_category'    => 'nullable|string',
+//            'salary_echelon'     => 'nullable|string',
+//            'salary_currency'    => ' in:USD,CDF',
+//        ]);
+//        $salaryData = [
+//            'base_salary' => $salaryRequest['salary_base_salary'] ?? 0,
+//            'category'    => $salaryRequest['salary_category'] ?? null,
+//            'echelon'     => $salaryRequest['salary_echelon'] ?? null,
+//            'currency'    => $salaryRequest['salary_currency'],
+//        ];
+//
+//
+//        $emergencyRequest = $request->validate([
+//            'emergency_relationship' => 'nullable|string',
+//            'emergency_full_name'    => 'nullable|string',
+//            'emergency_phone'        => 'nullable|string',
+//            'emergency_address'      => 'nullable|string',
+//        ]);
+//        $emergencyData = [
+//            'relationship' => $emergencyRequest['emergency_relationship'] ?? null,
+//            'full_name'    => $emergencyRequest['emergency_full_name'] ?? null,
+//            'phone'        => $emergencyRequest['emergency_phone'] ?? null,
+//            'address'      => $emergencyRequest['emergency_address'] ?? null,
+//        ];
+//
+//
+//        $childrenRequest = $request->validate([
+//            'children.*.full_name'     => ' string',
+//            'children.*.date_of_birth' => ' date',
+//            'children.*.gender'        => ' in:M,F',
+//        ]);
+//
+//        $dependantsRequest = $request->validate([
+//            'dependants'                => 'nullable|array',
+//            'dependants.*.relationship' => ' string',
+//            'dependants.*.full_name'    => ' string',
+//            'dependants.*.phone'        => 'nullable|string',
+//            'dependants.*.address'      => 'nullable|string',
+//        ]);
+//
+//
+//        if ($request->hasFile('photo')) {
+//            $validated['photo'] = $request->file('photo')->store('photos', 'public');
+//        }
+//
+//
+//        DB::transaction(function () use ($validated, $addressData, $companyData, $salaryData, $emergencyData, $childrenRequest, $dependantsRequest) {
+//
+//
+//            $latest = Employee::latest('id')->first();
+//            $nextId = $latest ? $latest->id + 1 : 1;
+//            $validated['employee_id'] = 'KAM_KIT' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
+//            $validated['status'] = 1;
+//
+//
+//            $employee = Employee::create($validated);
+//
+//
+//            Address::create(array_merge($addressData, [
+//                'employee_id' => $employee->employee_id,
+//            ]));
+//
+//
+//            Company::create(array_merge($companyData, [
+//                'employee_id' => $employee->employee_id,
+//            ]));
+//
+//
+//            Salary::create(array_merge($salaryData, [
+//                'employee_id' => $employee->employee_id,
+//            ]));
+//
+//
+//            if (array_filter($emergencyData)) {
+//                Emergency::create(array_merge($emergencyData, [
+//                    'employee_id' => $employee->employee_id,
+//                ]));
+//            }
+//
+//
+//            if (!empty($childrenRequest['children'])) {
+//                foreach ($childrenRequest['children'] as $child) {
+//                    Children::create([
+//                        'employee_id'   => $employee->employee_id,
+//                        'full_name'     => $child['full_name'],
+//                        'date_of_birth' => $child['date_of_birth'],
+//                        'gender'        => $child['gender'],
+//                    ]);
+//                }
+//            }
+//
+//            if (!empty($dependantsRequest['dependants'])) {
+//                foreach ($dependantsRequest['dependants'] as $dependant) {
+//                    Dependant::create([
+//                        'employee_id' => $employee->employee_id,
+//                        'relationship'=> $dependant['relationship'],
+//                        'full_name'   => $dependant['full_name'],
+//                        'phone'       => $dependant['phone'] ?? null,
+//                        'address'     => $dependant['address'] ?? null,
+//                    ]);
+//                }
+//            }
+//
+//        });
+//
+//        return redirect()
+//            ->route('employee.list')
+//            ->with('success', 'Employee created successfully!');
+//    }
+
     public function store(Request $request)
     {
-
         $validated = $request->validate([
-            'first_name' => 'nullable| string',
-            'last_name'  => 'nullable| string',
+            'first_name' => 'nullable|string',
+            'last_name'  => 'nullable|string',
             'middle_name'=> 'nullable|string',
             'gender'     => 'nullable|string',
             'date_of_birth' => 'nullable|date',
@@ -53,59 +219,47 @@ class EmployeeController extends Controller
             'photo'         => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-
         $addressData = $request->validate([
-            'employee_number' => ' string',
-            'employee_city'   => ' string',
-            'employee_province' => ' string',
-            'employee_phone'  => ' string',
-            'employee_email'  => ' email',
+            'employee_number' => 'nullable|string',
+            'employee_city'   => 'nullable|string',
+            'employee_province' => 'nullable|string',
+            'employee_phone'  => 'nullable|string',
+            'employee_email'  => 'nullable|email',
             'employee_emergency_phone' => 'nullable|string',
         ]);
         $addressData = [
-            'number' => $addressData['employee_number'],
-            'city' => $addressData['employee_city'],
-            'province' => $addressData['employee_province'],
-            'phone' => $addressData['employee_phone'],
-            'email' => $addressData['employee_email'],
+            'number' => $addressData['employee_number'] ?? null,
+            'city' => $addressData['employee_city'] ?? null,
+            'province' => $addressData['employee_province'] ?? null,
+            'phone' => $addressData['employee_phone'] ?? null,
+            'email' => $addressData['employee_email'] ?? null,
             'emergency_phone' => $addressData['employee_emergency_phone'] ?? null,
         ];
 
-
         $companyData = $request->validate([
-            'job_title' => ' string',
-            'department'=> ' string',
-            'section'   => ' string',
-            'contract_type' => ' in:CDI,CDD,Stage,Consultant',
-            'hire_date' => ' date',
-            'end_contract_date' => [
-                'nullable',
-                'date',
-                function ($attribute, $value, $fail) use ($request) {
-                    if (in_array($request->contract_type, ['CDD','Stage','Consultant']) && empty($value)) {
-                        $fail('End contract date is required for this contract type.');
-                    }
-                },
-            ],
-            'work_location' => ' string',
-            'supervisor' => ' string',
-            'employee_type' => ' in:Full Time,Part Time',
+            'job_title' => 'nullable|string',
+            'department'=> 'nullable|string',
+            'section'   => 'nullable|string',
+            'contract_type' => 'nullable|string',
+            'hire_date' => 'nullable|date',
+            'end_contract_date' => 'nullable|date',
+            'work_location' => 'nullable|string',
+            'supervisor' => 'nullable|string',
+            'employee_type' => 'nullable|string',
         ]);
-
 
         $salaryRequest = $request->validate([
             'salary_base_salary' => 'nullable|numeric',
             'salary_category'    => 'nullable|string',
             'salary_echelon'     => 'nullable|string',
-            'salary_currency'    => ' in:USD,CDF',
+            'salary_currency'    => 'nullable|string',
         ]);
         $salaryData = [
             'base_salary' => $salaryRequest['salary_base_salary'] ?? 0,
             'category'    => $salaryRequest['salary_category'] ?? null,
             'echelon'     => $salaryRequest['salary_echelon'] ?? null,
-            'currency'    => $salaryRequest['salary_currency'],
+            'currency'    => $salaryRequest['salary_currency'] ?? null,
         ];
-
 
         $emergencyRequest = $request->validate([
             'emergency_relationship' => 'nullable|string',
@@ -120,68 +274,47 @@ class EmployeeController extends Controller
             'address'      => $emergencyRequest['emergency_address'] ?? null,
         ];
 
-
         $childrenRequest = $request->validate([
-            'children.*.full_name'     => ' string',
-            'children.*.date_of_birth' => ' date',
-            'children.*.gender'        => ' in:M,F',
+            'children.*.full_name'     => 'nullable|string',
+            'children.*.date_of_birth' => 'nullable|date',
+            'children.*.gender'        => 'nullable|string',
         ]);
 
         $dependantsRequest = $request->validate([
             'dependants'                => 'nullable|array',
-            'dependants.*.relationship' => ' string',
-            'dependants.*.full_name'    => ' string',
+            'dependants.*.relationship' => 'nullable|string',
+            'dependants.*.full_name'    => 'nullable|string',
             'dependants.*.phone'        => 'nullable|string',
             'dependants.*.address'      => 'nullable|string',
         ]);
-
 
         if ($request->hasFile('photo')) {
             $validated['photo'] = $request->file('photo')->store('photos', 'public');
         }
 
-
         DB::transaction(function () use ($validated, $addressData, $companyData, $salaryData, $emergencyData, $childrenRequest, $dependantsRequest) {
-
-
             $latest = Employee::latest('id')->first();
             $nextId = $latest ? $latest->id + 1 : 1;
             $validated['employee_id'] = 'KAM_KIT' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
             $validated['status'] = 1;
 
-
             $employee = Employee::create($validated);
 
-
-            Address::create(array_merge($addressData, [
-                'employee_id' => $employee->employee_id,
-            ]));
-
-
-            Company::create(array_merge($companyData, [
-                'employee_id' => $employee->employee_id,
-            ]));
-
-
-            Salary::create(array_merge($salaryData, [
-                'employee_id' => $employee->employee_id,
-            ]));
-
+            Address::create(array_merge($addressData, ['employee_id' => $employee->employee_id]));
+            Company::create(array_merge($companyData, ['employee_id' => $employee->employee_id]));
+            Salary::create(array_merge($salaryData, ['employee_id' => $employee->employee_id]));
 
             if (array_filter($emergencyData)) {
-                Emergency::create(array_merge($emergencyData, [
-                    'employee_id' => $employee->employee_id,
-                ]));
+                Emergency::create(array_merge($emergencyData, ['employee_id' => $employee->employee_id]));
             }
-
 
             if (!empty($childrenRequest['children'])) {
                 foreach ($childrenRequest['children'] as $child) {
                     Children::create([
                         'employee_id'   => $employee->employee_id,
-                        'full_name'     => $child['full_name'],
-                        'date_of_birth' => $child['date_of_birth'],
-                        'gender'        => $child['gender'],
+                        'full_name'     => $child['full_name'] ?? null,
+                        'date_of_birth' => $child['date_of_birth'] ?? null,
+                        'gender'        => $child['gender'] ?? null,
                     ]);
                 }
             }
@@ -190,20 +323,21 @@ class EmployeeController extends Controller
                 foreach ($dependantsRequest['dependants'] as $dependant) {
                     Dependant::create([
                         'employee_id' => $employee->employee_id,
-                        'relationship'=> $dependant['relationship'],
-                        'full_name'   => $dependant['full_name'],
+                        'relationship'=> $dependant['relationship'] ?? null,
+                        'full_name'   => $dependant['full_name'] ?? null,
                         'phone'       => $dependant['phone'] ?? null,
                         'address'     => $dependant['address'] ?? null,
                     ]);
                 }
             }
-
         });
 
         return redirect()
             ->route('employee.list')
             ->with('success', 'Employee created successfully!');
+
     }
+
 
     /**
      * Display the specified resource.
