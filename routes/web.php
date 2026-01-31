@@ -5,9 +5,11 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeExport;
 use App\Http\Controllers\EmployeeImportController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -127,6 +129,38 @@ Route::middleware(['auth', 'verified'])->group( function () {
     Route::get('/users/{user}/permissions', [UserController::class, 'editPermissions'])->name('users.editPermissions');
     Route::put('/users/{user}/permissions', [UserController::class, 'updatePermissions'])->name('users.updatePermissions');
 
+
+
+    Route::get('/lang/{locale}', function ($locale) {
+        if (! in_array($locale, ['en', 'fr'])) {
+            abort(404);
+        }
+
+        Session::put('locale', $locale);
+        App::setLocale($locale);
+
+        return redirect()->back();
+    })->name('lang.switch');
+
+
+//payroll
+    Route::get('/payrolls', [PayrollController::class,'index'])->name('payroll.index');
+    Route::get('/payrolls/search', [PayrollController::class,'search'])->name('payroll.search');
+
+    Route::get('/employees/{employee}/payroll/create', [PayrollController::class, 'create'])
+        ->name('payroll.create');
+
+    Route::post('/employees/{employee}/payroll', [PayrollController::class, 'store'])
+        ->name('payroll.store');
+
+    Route::get('/employees/{employee}/payroll/edit', [PayrollController::class, 'edit'])
+        ->name('payroll.edit');
+
+    Route::get('payroll/history', [PayrollController::class, 'history'])
+        ->name('payroll.history');
+
+//    Route::get('/employees/{employee}/payroll/history', [PayrollController::class, 'history'])
+//        ->name('payroll.history');
 
 });
 

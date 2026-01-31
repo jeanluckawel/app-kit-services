@@ -117,6 +117,21 @@
                         <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <form>
+                        <select class="form-select" style="border-radius:0;"
+                                onchange="window.location.href='{{ url('lang') }}/' + this.value">
+                            <option value="en" {{ app()->getLocale() === 'en' ? 'selected' : '' }}>
+                                EN
+                            </option>
+                            <option value="fr" {{ app()->getLocale() === 'fr' ? 'selected' : '' }}>
+                                FR
+                            </option>
+                        </select>
+                    </form>
+                </li>
+
+
                 <!--end::Fullscreen Toggle-->
                 <!--begin::User Menu Dropdown-->
                 @auth
@@ -210,6 +225,9 @@
 <!--end::App Wrapper-->
 <!--begin::Script-->
 <!--begin::Third Party Plugin(OverlayScrollbars)-->
+
+
+
 <script
         src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
         crossorigin="anonymous"
@@ -227,7 +245,78 @@
 <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
 <script src="{{ asset('js/adminlte.js') }}"></script>
 <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
+    $(function () {
+
+        @if(session('success'))
+        Swal.fire({
+            title: 'Success!',
+            text: @json(session('success')),
+            icon: 'success',
+            iconColor: '#28a745',
+            background: '#fff',
+            color: '#333',
+            confirmButtonColor: '#28a745',
+            confirmButtonText: 'Ok',
+            customClass: {
+                popup: 'shadow-lg',
+                title: 'fw-bold fs-5',
+                content: 'fs-6'
+            },
+            timer: 3000,
+            timerProgressBar: true,
+        });
+        @endif
+
+
+        @if(session('error'))
+        Swal.fire({
+            title: 'Error!',
+            text: @json(session('error')),
+            icon: 'error',
+            iconColor: '#FF3300',
+            background: '#fff',
+            color: '#333',
+            confirmButtonColor: '#FF3300',
+            confirmButtonText: 'Ok',
+            customClass: {
+                popup: 'shadow-lg',
+                title: 'fw-bold fs-5',
+                content: 'fs-6'
+            },
+        });
+        @endif
+
+        // === VALIDATION ERRORS ===
+        @if($errors->any())
+        let errors = @json($errors->all());
+        Swal.fire({
+            title: 'Validation Errors!',
+            html: errors.map(e => "• " + e).join('<br>'),
+            icon: 'error',
+            iconColor: '#FF3300',
+            background: '#fff',
+            color: '#333',
+            confirmButtonColor: '#FF3300',
+            confirmButtonText: 'Ok',
+            customClass: {
+                popup: 'shadow-lg',
+                title: 'fw-bold fs-5',
+                content: 'fs-6'
+            },
+        });
+        @endif
+    });
+
+
+
+
     const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
     const Default = {
         scrollbarTheme: 'os-theme-light',

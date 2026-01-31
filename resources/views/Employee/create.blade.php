@@ -42,7 +42,7 @@
 
         <!-- Form -->
         <div class="card-body">
-            <form action="{{ route('employee.store') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+            <form action="{{ route('employee.store') }}" method="POST" enctype="multipart/form-data" autocomplete="kit-services-sarl">
                 @csrf
 
                 <!-- Tabs nav -->
@@ -102,61 +102,120 @@
                 <!-- Tabs content -->
                 <div class="tab-content" id="employeeTabContent">
 
-                    <!-- Personal Info -->
+                    <!-- Personal Info  -->
                     <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
                         <div class="row g-3">
+
+                            <!-- First Name -->
                             <div class="col-md-4">
                                 <label class="form-label fw-bold">
-                                    First Name   <span class="text-danger">*</span>
+                                    First Name <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" name="first_name" class="form-control" placeholder="Jean Luc"
-                                         autocomplete="off" style="border-radius:0;">
+                                       required
+                                       style="border-radius:0;"
+                                       pattern="[A-Za-z\s]{3,}"
+                                       title="First name must be at least 3 letters, letters only"
+                                       oninvalid="this.setCustomValidity('Please enter a valid first name (at least 3 letters)')"
+                                       oninput="this.setCustomValidity('')"
+                                       autocomplete="kit-services-sarl">
                             </div>
 
+                            <!-- Last Name -->
                             <div class="col-md-4">
-                                <label class="form-label fw-bold">Last Name   </label>
+                                <label class="form-label fw-bold">
+                                    Last Name <span class="text-danger">*</span>
+                                </label>
                                 <input type="text" name="last_name" class="form-control" placeholder="Kawel"
-                                       autocomplete="off" style="border-radius:0;">
+                                       required
+                                       style="border-radius:0;"
+                                       pattern="[A-Za-z\s]{3,}"
+                                       title="Last name must be at least 3 letters, letters only"
+                                       oninvalid="this.setCustomValidity('Please enter a valid last name (at least 3 letters)')"
+                                       oninput="this.setCustomValidity('')"
+                                       autocomplete="kit-services-sarl">
                             </div>
+
+                            <!-- Middle Name -->
                             <div class="col-md-4">
                                 <label class="form-label fw-bold">Middle Name</label>
                                 <input type="text" name="middle_name" class="form-control" placeholder="A Mbumb"
-                                       autocomplete="off" style="border-radius:0;">
+                                       style="border-radius:0;"
+                                       pattern="[A-Za-z\s]{3,}"
+                                       title="Middle name must be at least 3 letters"
+                                       oninvalid="this.setCustomValidity('Please enter a valid middle name (at least 3 letters)')"
+                                       oninput="this.setCustomValidity('')"
+                                       autocomplete="kit-services-sarl">
                             </div>
+
+                            <!-- Gender -->
                             <div class="col-md-4">
-                                <label class="form-label fw-bold">Gender  </label>
-                                <select name="gender"   class="form-select" style="border-radius:0;">
+                                <label class="form-label fw-bold">
+                                    Gender <span class="text-danger">*</span>
+                                </label>
+                                <select name="gender" class="form-select" style="border-radius:0;" required
+                                        oninvalid="this.setCustomValidity('Please select gender')"
+                                        oninput="this.setCustomValidity('')"
+                                        autocomplete="kit-services-sarl">
                                     <option value="">Select</option>
                                     <option value="M">Male</option>
                                     <option value="F">Female</option>
                                 </select>
                             </div>
 
+                            <!-- Date of Birth -->
                             <div class="col-md-4">
-                                <label class="form-label fw-bold">Date of Birth <span
-                                        class="text-danger">*</span></label>
-                                <input type="date" name="date_of_birth"   class="form-control"
-                                       style="border-radius:0;">
+                                <label class="form-label fw-bold">
+                                    Date of Birth <span class="text-danger">*</span>
+                                </label>
+                                <input type="date" name="date_of_birth" class="form-control"
+                                       required
+                                       style="border-radius:0;"
+                                       oninvalid="this.setCustomValidity('Please select a valid date of birth (18+ years old)')"
+                                       oninput="this.setCustomValidity('')"
+                                       autocomplete="kit-services-sarl"
+                                       id="date_of_birth">
                             </div>
 
+                            <!-- Number Card -->
                             <div class="col-md-4">
-                                <label class="form-label fw-bold">Number Card   </label>
-                                <input type="text" name="number_card"   class="form-control"
-                                       placeholder="NN338638245 / OP87974" autocomplete="off" style="border-radius:0;">
+                                <label class="form-label fw-bold">
+                                    Number Card <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" name="number_card" class="form-control"
+                                       placeholder="NN338638245 / OP87974"
+                                       required
+                                       style="border-radius:0;"
+                                       pattern="[A-Za-z0-9]{10,}"
+                                       title="Number Card must be at least 3 alphanumeric characters"
+                                       oninvalid="this.setCustomValidity('Please enter a valid Number Card (min 10 alphanumeric chars)')"
+                                       oninput="this.setCustomValidity('')"
+                                       autocomplete="kit-services-sarl">
                             </div>
 
+                            <!-- Country -->
                             <div class="col-md-4">
-                                <label class="form-label fw-bold">Country   </label>
-                                <select name="pays" id="country" class="form-select"   style="border-radius:0;">
+                                <label class="form-label fw-bold">
+                                    Country <span class="text-danger">*</span>
+                                </label>
+                                <select name="pays" id="country" class="form-select" style="border-radius:0;" required
+                                        oninvalid="this.setCustomValidity('Please select a country')"
+                                        oninput="this.setCustomValidity('')"
+                                        autocomplete="kit-services-sarl">
                                     <option value="">Select Country</option>
                                 </select>
                             </div>
 
-
+                            <!-- Marital Status -->
                             <div class="col-md-4">
-                                <label class="form-label fw-bold">Marital Status <span
-                                        class="text-danger">*</span></label>
-                                <select name="marital_status"   class="form-select" style="border-radius:0;">
+                                <label class="form-label fw-bold">
+                                    Marital Status <span class="text-danger">*</span>
+                                </label>
+                                <select name="marital_status" class="form-select" style="border-radius:0;"
+                                        required
+                                        oninvalid="this.setCustomValidity('Please select marital status')"
+                                        oninput="this.setCustomValidity('')"
+                                        autocomplete="kit-services-sarl">
                                     <option value="">Select</option>
                                     <option value="single">Single</option>
                                     <option value="married">Married</option>
@@ -164,104 +223,140 @@
                                     <option value="widowed">Widowed</option>
                                 </select>
                             </div>
+
                         </div>
                     </div>
 
-                    <!-- Address  -->
+                    <!-- Address Info -->
                     <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
                         <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Number   </label>
+
+                            <!-- Number -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">
+                                    Number
+                                </label>
                                 <input type="text" name="employee_number" class="form-control" placeholder="6"
-                                       autocomplete="off"   style="border-radius:0;">
+                                       style="border-radius:0;"
+                                       autocomplete="kit-services-sarl">
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">City   </label>
+
+                            <!-- City -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">
+                                    City
+                                </label>
                                 <input type="text" name="employee_city" class="form-control" placeholder="Manika"
-                                       autocomplete="off"   style="border-radius:0;">
+                                       style="border-radius:0;"
+                                       autocomplete="kit-services-sarl">
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Province   </label>
+
+                            <!-- Province -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">
+                                    Province
+                                </label>
                                 <input type="text" name="employee_province" class="form-control" placeholder="Lualaba"
-                                       autocomplete="off"   style="border-radius:0;">
+                                       style="border-radius:0;"
+                                       autocomplete="kit-services-sarl">
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Phone   </label>
+
+                            <!-- Phone -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">
+                                    Phone
+                                </label>
                                 <input type="text" name="employee_phone" class="form-control"
-                                       placeholder="+243 974 453 545" autocomplete="off"
-                                       style="border-radius:0;">
+                                       placeholder="+243 974 453 545"
+                                       style="border-radius:0;"
+                                       pattern="\+?\d{9,15}"
+                                       title="Enter a valid phone number"
+                                       oninvalid="this.setCustomValidity('Please enter a valid phone number')"
+                                       oninput="this.setCustomValidity('')"
+                                       autocomplete="kit-services-sarl">
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Emergency Phone</label>
+
+                            <!-- Emergency Phone -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">
+                                    Emergency Phone
+                                </label>
                                 <input type="text" name="employee_emergency_phone" class="form-control"
-                                       placeholder="+243 830 835 071" autocomplete="off" style="border-radius:0;">
+                                       placeholder="+243 830 835 071"
+                                       style="border-radius:0;"
+                                       pattern="\+?\d{9,15}"
+                                       title="Enter a valid emergency phone number"
+                                       oninvalid="this.setCustomValidity('Please enter a valid emergency phone number')"
+                                       oninput="this.setCustomValidity('')"
+                                       autocomplete="kit-services-sarl">
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold">Email   </label>
+
+                            <!-- Email -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">
+                                    Email
+                                </label>
                                 <input type="email" name="employee_email" class="form-control"
-                                       placeholder="jeanluckawel45@mail.com" autocomplete="off"
-                                       style="border-radius:0;">
+                                       placeholder="jeanluckawel45@mail.com"
+                                       style="border-radius:0;"
+                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                       title="Enter a valid email address"
+                                       oninvalid="this.setCustomValidity('Please enter a valid email address')"
+                                       oninput="this.setCustomValidity('')"
+                                       autocomplete="kit-services-sarl">
                             </div>
+
                         </div>
                     </div>
 
 
-                    <!-- Company  -->
+                    <!-- Company Info -->
                     <div class="tab-pane fade" id="company" role="tabpanel" aria-labelledby="company-tab">
                         <div class="row g-3 mt-3">
 
                             <!-- Job Title -->
                             <div class="col-md-6">
-                                <label class="form-label fw-bold">
-                                    Job Title
-                                </label>
-                                <select name="job_title" class="form-select"   style="border-radius:0;">
-                                    <option value="">Select Job Title</option>
-                                    <option value="Accountant">Accountant</option>
-                                    <option value="HR Officer">HR Officer</option>
-                                    <option value="Engineer">Engineer</option>
-                                    <option value="IT Support">IT Support</option>
-                                    <option value="Manager">Manager</option>
+                                <label class="form-label fw-bold">{{ __('Job Title') }}</label>
+                                <select name="job_title" class="form-select" style="border-radius:0;">
+                                    <option value="">{{ __('Select Job Title') }}</option>
+                                    <option value="Accountant">{{ __('Accountant') }}</option>
+                                    <option value="HR Officer">{{ __('HR Officer') }}</option>
+                                    <option value="Engineer">{{ __('Engineer') }}</option>
+                                    <option value="IT Support">{{ __('IT Support') }}</option>
+                                    <option value="Manager">{{ __('Manager') }}</option>
                                 </select>
                             </div>
 
                             <!-- Department -->
                             <div class="col-md-6">
-                                <label class="form-label fw-bold">
-                                    Department
-                                </label>
-                                <select name="department" class="form-select"   style="border-radius:0;">
-                                    <option value="">Select Department</option>
-                                    <option value="HR">HR</option>
-                                    <option value="Finance">Finance</option>
-                                    <option value="IT">IT</option>
-                                    <option value="Operations">Operations</option>
-                                    <option value="Administration">Administration</option>
+                                <label class="form-label fw-bold">{{ __('Department') }}</label>
+                                <select name="department" class="form-select" style="border-radius:0;">
+                                    <option value="">{{ __('Select Department') }}</option>
+                                    <option value="HR">{{ __('HR') }}</option>
+                                    <option value="Finance">{{ __('Finance') }}</option>
+                                    <option value="IT">{{ __('IT') }}</option>
+                                    <option value="Operations">{{ __('Operations') }}</option>
+                                    <option value="Administration">{{ __('Administration') }}</option>
                                 </select>
                             </div>
 
                             <!-- Section -->
                             <div class="col-md-6">
-                                <label class="form-label fw-bold">
-                                    Section
-                                </label>
-                                <select name="section" class="form-select"   style="border-radius:0;">
-                                    <option value="">Select Section</option>
-                                    <option value="Payroll">Payroll</option>
-                                    <option value="Recruitment">Recruitment</option>
-                                    <option value="Maintenance">Maintenance</option>
-                                    <option value="Security">Security</option>
+                                <label class="form-label fw-bold">{{ __('Section') }}</label>
+                                <select name="section" class="form-select" style="border-radius:0;">
+                                    <option value="">{{ __('Select Section') }}</option>
+                                    <option value="Payroll">{{ __('Payroll') }}</option>
+                                    <option value="Recruitment">{{ __('Recruitment') }}</option>
+                                    <option value="Maintenance">{{ __('Maintenance') }}</option>
+                                    <option value="Security">{{ __('Security') }}</option>
                                 </select>
                             </div>
 
                             <!-- Contract Type -->
                             <div class="col-md-6">
-                                <label class="form-label fw-bold">
-                                    Contract Type
-                                </label>
-                                <select name="contract_type" id="contract_type" class="form-select"
-                                          style="border-radius:0; color:#ff6600;">
-                                    <option value="">Select Contract Type</option>
+                                <label class="form-label fw-bold">{{ __('Contract Type') }}</label>
+                                <select name="contract_type" id="contract_type" class="form-select" style="border-radius:0; color:#ff6600;">
+                                    <option value="">{{ __('Select Contract Type') }}</option>
                                     <option value="CDI">CDI</option>
                                     <option value="CDD">CDD</option>
                                     <option value="Stage">Stage</option>
@@ -271,67 +366,52 @@
 
                             <!-- Hire Date -->
                             <div class="col-md-6">
-                                <label class="form-label fw-bold">
-                                    Hire Date
-                                </label>
-                                <input type="date" name="hire_date" class="form-control"
-                                         style="border-radius:0;">
+                                <label class="form-label fw-bold">{{ __('Hire Date') }}</label>
+                                <input type="date" name="hire_date" class="form-control" style="border-radius:0;">
                             </div>
 
                             <!-- End Contract Date -->
                             <div class="col-md-6 d-none" id="endContractWrapper">
-                                <label class="form-label fw-bold">
-                                    End Contract Date
-                                </label>
-                                <input type="date" name="end_contract_date"
-                                       class="form-control" style="border-radius:0;">
+                                <label class="form-label fw-bold">{{ __('End Contract Date') }}</label>
+                                <input type="date" name="end_contract_date" class="form-control" style="border-radius:0;">
                             </div>
 
                             <!-- Work Location -->
                             <div class="col-md-6">
-                                <label class="form-label fw-bold">
-                                    Work Location
-                                </label>
-                                <select name="work_location" class="form-select"  style="border-radius:0;">
-                                    <option value="">Select Work Location</option>
-                                    <option value="Head Office">Head Office</option>
-                                    <option value="Site A">Site A</option>
-                                    <option value="Site B">Site B</option>
-                                    <option value="Remote">Remote</option>
+                                <label class="form-label fw-bold">{{ __('Work Location') }}</label>
+                                <select name="work_location" class="form-select" style="border-radius:0;">
+                                    <option value="">{{ __('Select Work Location') }}</option>
+                                    <option value="Head Office">{{ __('Head Office') }}</option>
+                                    <option value="Site A">{{ __('Site A') }}</option>
+                                    <option value="Site B">{{ __('Site B') }}</option>
+                                    <option value="Remote">{{ __('Remote') }}</option>
                                 </select>
                             </div>
 
                             <!-- Supervisor -->
                             <div class="col-md-6">
-                                <label class="form-label fw-bold">
-                                    Supervisor
-                                </label>
-                                <select name="supervisor" class="form-select"
-                                         style="border-radius:0;">
-                                    <option value="">Select Supervisor</option>
-                                    <option value="HR Manager">HR Manager</option>
-                                    <option value="Operations Manager">Operations Manager</option>
-                                    <option value="Finance Director">Finance Director</option>
+                                <label class="form-label fw-bold">{{ __('Supervisor') }}</label>
+                                <select name="supervisor" class="form-select" style="border-radius:0;">
+                                    <option value="">{{ __('Select Supervisor') }}</option>
+                                    <option value="HR Manager">{{ __('HR Manager') }}</option>
+                                    <option value="Operations Manager">{{ __('Operations Manager') }}</option>
+                                    <option value="Finance Director">{{ __('Finance Director') }}</option>
                                 </select>
                             </div>
 
                             <!-- Employee Type -->
                             <div class="col-md-6">
-                                <label class="form-label fw-bold">
-                                    Employee Type
-                                </label>
-                                <select name="employee_type" class="form-select"
-                                         style="border-radius:0; color:#ff6600;">
-                                    <option value="">Select Employee Type</option>
-                                    <option value="Full Time">Full Time</option>
-                                    <option value="Part Time">Part Time</option>
+                                <label class="form-label fw-bold">{{ __('Employee Type') }}</label>
+                                <select name="employee_type" class="form-select" style="border-radius:0; color:#ff6600;">
+                                    <option value="">{{ __('Select Employee Type') }}</option>
+                                    <option value="Full Time">{{ __('Full Time') }}</option>
+                                    <option value="Part Time">{{ __('Part Time') }}</option>
                                 </select>
                             </div>
 
                         </div>
                     </div>
-
-
+                    <!-- Education / Children -->
                     <div class="tab-pane fade" id="education" role="tabpanel" aria-labelledby="education-tab">
                         <div class="row g-3 mt-3">
 
@@ -339,150 +419,146 @@
                                 <div class="row g-3 child-row mb-2 align-items-end">
                                     <!-- Child Full Name -->
                                     <div class="col-md-4">
-                                        <label class="form-label fw-bold">Full Name</label>
+                                        <label class="form-label fw-bold">{{ __('Full Name') }}</label>
                                         <input type="text" name="children[0][full_name]" class="form-control"
-                                               placeholder="Full Name" autocomplete="off" style="border-radius:0;">
+                                               placeholder="{{ __('Full Name') }}" autocomplete="kit-services-sarl" style="border-radius:0;">
                                     </div>
 
                                     <!-- Child Date of Birth -->
                                     <div class="col-md-4">
-                                        <label class="form-label fw-bold">Date of Birth</label>
-                                        <input type="date" name="children[0][date_of_birth]" class="form-control"
-                                               style="border-radius:0;">
+                                        <label class="form-label fw-bold">{{ __('Date of Birth') }}</label>
+                                        <input type="date" name="children[0][date_of_birth]" class="form-control" style="border-radius:0;">
                                     </div>
 
                                     <!-- Child Gender -->
                                     <div class="col-md-3">
-                                        <label class="form-label fw-bold">Gender</label>
-                                        <select name="children[0][gender]" class="form-select"
-                                                style="border-radius:0; color:#ff6600;">
-                                            <option value="">Select Gender</option>
-                                            <option value="M">Male</option>
-                                            <option value="F">Female</option>
+                                        <label class="form-label fw-bold">{{ __('Gender') }}</label>
+                                        <select name="children[0][gender]" class="form-select" style="border-radius:0; color:#ff6600;">
+                                            <option value="">{{ __('Select Gender') }}</option>
+                                            <option value="M">{{ __('Male') }}</option>
+                                            <option value="F">{{ __('Female') }}</option>
                                         </select>
                                     </div>
 
-
                                     <div class="col-md-1 d-flex justify-content-end">
-                                        <button type="button" class="btn btn-danger btn-sm removeChild"
-                                                style="border-radius:0;">&times;
-                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm removeChild" style="border-radius:0;">&times;</button>
                                     </div>
                                 </div>
                             </div>
 
-
                             <div class="col-12">
-                                <button type="button" id="addChildBtn" class="btn btn-outline-warning"
-                                        style="border-radius:0;">
-                                    + Add Child
+                                <button type="button" id="addChildBtn" class="btn btn-outline-warning" style="border-radius:0;">
+                                    + {{ __('Add Child') }}
                                 </button>
                             </div>
 
                         </div>
                     </div>
 
-
+                    <!-- Emergency Contact -->
                     <div class="tab-pane fade" id="emergency" role="tabpanel" aria-labelledby="emergency-tab">
                         <div class="row g-3 mt-3">
 
                             <div class="col-md-3">
-                                <label class="form-label fw-bold">Relationship</label>
+                                <label class="form-label fw-bold">{{ __('Relationship') }}</label>
                                 <select name="emergency_relationship" class="form-select" style="border-radius:0;">
-                                    <option value="">Select Relationship</option>
-                                    <option value="Father">Father</option>
-                                    <option value="Mother">Mother</option>
-                                    <option value="Spouse">Spouse</option>
-                                    <option value="Brother">Brother</option>
-                                    <option value="Sister">Sister</option>
-                                    <option value="Mr">Mr</option>
-                                    <option value="Mrs">Mrs</option>
-                                    <option value="Dr">Dr</option>
+                                    <option value="">{{ __('Select Relationship') }}</option>
+                                    <option value="Father">{{ __('Father') }}</option>
+                                    <option value="Mother">{{ __('Mother') }}</option>
+                                    <option value="Spouse">{{ __('Spouse') }}</option>
+                                    <option value="Brother">{{ __('Brother') }}</option>
+                                    <option value="Sister">{{ __('Sister') }}</option>
+                                    <option value="Mr">{{ __('Mr') }}</option>
+                                    <option value="Mrs">{{ __('Mrs') }}</option>
+                                    <option value="Dr">{{ __('Dr') }}</option>
                                 </select>
                             </div>
 
                             <div class="col-md-3">
-                                <label class="form-label fw-bold">Full Name</label>
+                                <label class="form-label fw-bold">{{ __('Full Name') }}</label>
                                 <input type="text" name="emergency_full_name" class="form-control"
-                                       placeholder="Full Name" autocomplete="off" style="border-radius:0;">
+                                       placeholder="{{ __('Full Name') }}" autocomplete="kit-services-sarl" style="border-radius:0;">
                             </div>
 
                             <div class="col-md-3">
-                                <label class="form-label fw-bold">Phone</label>
+                                <label class="form-label fw-bold">{{ __('Phone') }}</label>
                                 <input type="text" name="emergency_phone" class="form-control"
-                                       placeholder="+123456789" autocomplete="off" style="border-radius:0;">
+                                       placeholder="+123456789" autocomplete="kit-services-sarl" style="border-radius:0;">
                             </div>
 
                             <div class="col-md-3">
-                                <label class="form-label fw-bold">Address</label>
+                                <label class="form-label fw-bold">{{ __('Address') }}</label>
                                 <input type="text" name="emergency_address" class="form-control"
-                                       placeholder="Address" autocomplete="off" style="border-radius:0;">
+                                       placeholder="{{ __('Address') }}" autocomplete="kit-services-sarl" style="border-radius:0;">
                             </div>
 
                         </div>
                     </div>
 
-
+                    <!-- Dependants -->
                     <div class="tab-pane fade" id="dependants" role="tabpanel">
                         <div class="row g-3 mt-3">
 
                             <div id="dependantsContainer">
 
                                 <!-- FIRST DEPENDANT -->
-                                <div class="row g-3 mb-2 dependant-row">
+                                <div class="row g-3 mb-2 dependant-row align-items-end">
                                     <div class="col-md-3">
-                                        <select name="dependants[0][relationship]" class="form-select">
-                                            <option value="">Select</option>
-                                            <option value="Father">Father</option>
-                                            <option value="Mother">Mother</option>
-                                            <option value="Spouse">Spouse</option>
-                                            <option value="Brother">Brother</option>
-                                            <option value="Sister">Sister</option>
+                                        <label class="form-label fw-bold">{{ __('Relationship') }}</label>
+                                        <select name="dependants[0][relationship]" class="form-select" style="border-radius:0;">
+                                            <option value="">{{ __('Select') }}</option>
+                                            <option value="Father">{{ __('Father') }}</option>
+                                            <option value="Mother">{{ __('Mother') }}</option>
+                                            <option value="Spouse">{{ __('Spouse') }}</option>
+                                            <option value="Brother">{{ __('Brother') }}</option>
+                                            <option value="Sister">{{ __('Sister') }}</option>
                                         </select>
                                     </div>
 
                                     <div class="col-md-3">
+                                        <label class="form-label fw-bold">{{ __('Full Name') }}</label>
                                         <input type="text" name="dependants[0][full_name]" class="form-control"
-                                               placeholder="Full Name">
+                                               placeholder="{{ __('Full Name') }}" style="border-radius:0;" autocomplete="kit-services-sarl">
                                     </div>
 
                                     <div class="col-md-3">
+                                        <label class="form-label fw-bold">{{ __('Phone') }}</label>
                                         <input type="text" name="dependants[0][phone]" class="form-control"
-                                               placeholder="Phone">
+                                               placeholder="{{ __('Phone') }}" style="border-radius:0;" autocomplete="kit-services-sarl">
                                     </div>
 
                                     <div class="col-md-3">
+                                        <label class="form-label fw-bold">{{ __('Address') }}</label>
                                         <input type="text" name="dependants[0][address]" class="form-control"
-                                               placeholder="Address">
+                                               placeholder="{{ __('Address') }}" style="border-radius:0;" autocomplete="kit-services-sarl">
                                     </div>
                                 </div>
 
                             </div>
 
                             <div class="col-12">
-                                <button type="button" id="addDependant" class="btn btn-outline-warning"
-                                        style="border-radius:0;">
-                                    + Add Dependant
+                                <button type="button" id="addDependant" class="btn btn-outline-warning" style="border-radius:0;">
+                                    + {{ __('Add Dependant') }}
                                 </button>
                             </div>
 
                         </div>
                     </div>
 
-
+                    <!-- Salary -->
                     <div class="tab-pane fade" id="salary" role="tabpanel" aria-labelledby="salary-tab">
                         <div class="row g-3 mt-3">
+
                             <div class="col-md-3">
-                                <label class="form-label fw-bold">Base Salary</label>
+                                <label class="form-label fw-bold">{{ __('Base Salary') }}</label>
                                 <input type="number" step="0.01" name="salary_base_salary" class="form-control"
-                                       placeholder="0.00" autocomplete="off" style="border-radius:0;">
+                                       placeholder="0.00" style="border-radius:0;" autocomplete="kit-services-sarl">
                             </div>
 
                             <div class="col-md-3">
-                                <label class="form-label fw-bold">Category</label>
-                                <select name="salary_category" class="form-select"
-                                        style="border-radius:0; color:#ff6600;">
-                                    <option value="">Select Category</option>
+                                <label class="form-label fw-bold">{{ __('Category') }}</label>
+                                <select name="salary_category" class="form-select" style="border-radius:0; color:#ff6600;">
+                                    <option value="">{{ __('Select Category') }}</option>
                                     <option value="A1">A1</option>
                                     <option value="A2">A2</option>
                                     <option value="A3">A3</option>
@@ -493,12 +569,10 @@
                                 </select>
                             </div>
 
-
                             <div class="col-md-3">
-                                <label class="form-label fw-bold">Echelon</label>
-                                <select name="salary_echelon" class="form-select"
-                                        style="border-radius:0; color:#ff6600;">
-                                    <option value="">Select Echelon</option>
+                                <label class="form-label fw-bold">{{ __('Echelon') }}</label>
+                                <select name="salary_echelon" class="form-select" style="border-radius:0; color:#ff6600;">
+                                    <option value="">{{ __('Select Echelon') }}</option>
                                     <option value="I">I</option>
                                     <option value="II">II</option>
                                     <option value="III">III</option>
@@ -507,18 +581,16 @@
                                 </select>
                             </div>
 
-
                             <div class="col-md-3">
-                                <label class="form-label fw-bold">Currency</label>
-                                <select name="salary_currency" class="form-select"
-                                        style="border-radius:0; color:#ff6600;">
+                                <label class="form-label fw-bold">{{ __('Currency') }}</label>
+                                <select name="salary_currency" class="form-select" style="border-radius:0; color:#ff6600;">
                                     <option value="USD">USD</option>
                                     <option value="CDF">CDF</option>
                                 </select>
                             </div>
+
                         </div>
                     </div>
-
 
                     <!-- Photo -->
                     <div class="tab-pane fade" id="photo" role="tabpanel" aria-labelledby="photo-tab">
@@ -571,7 +643,7 @@
             childRow.classList.add('row', 'g-3', 'child-row', 'mb-2');
             childRow.innerHTML = `
             <div class="col-md-4">
-                <input type="text" name="children[${childIndex}][full_name]" class="form-control" placeholder="Full Name" autocomplete="off" style="border-radius:0;">
+                <input type="text" name="children[${childIndex}][full_name]" class="form-control" placeholder="Full Name" autocomplete="kit-services-sarl" style="border-radius:0;">
             </div>
             <div class="col-md-4">
                 <input type="date" name="children[${childIndex}][date_of_birth]" class="form-control" style="border-radius:0;">
@@ -781,6 +853,64 @@
             // Pas de timer → se ferme seulement quand l'utilisateur clique sur OK
         });
         @endif
+
+
+
+
+        // Calculer la date limite pour 18 ans
+        const dobInput = document.getElementById('date_of_birth');
+        const today = new Date();
+        const year = today.getFullYear() - 18; // minimum 18 ans
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        dobInput.max = `${year}-${month}-${day}`;
+
+
+
+        // ====== FRONT-END VALIDATION AVANT SUBMIT ======
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault(); // empêche le submit immédiat
+
+            let form = this;
+            let invalidFields = [];
+
+            // Parcours tous les champs requis
+            form.querySelectorAll('[required]').forEach(field => {
+                if (!field.value.trim()) {
+                    let label = field.closest('.col-md-4, .col-md-6, .col-md-3')?.querySelector('label')?.innerText || field.name;
+                    invalidFields.push(label.replace('*','').trim());
+                } else if (field.pattern) {
+                    let regex = new RegExp(field.pattern);
+                    if (!regex.test(field.value)) {
+                        let label = field.closest('.col-md-4, .col-md-6, .col-md-3')?.querySelector('label')?.innerText || field.name;
+                        invalidFields.push(label.replace('*','').trim() + " (format incorrect)");
+                    }
+                }
+            });
+
+            if (invalidFields.length > 0) {
+                Swal.fire({
+                    title: 'Please fix the following errors',
+                    html: invalidFields.map(f => '• ' + f).join('<br>'),
+                    icon: 'error',
+                    iconColor: '#FF3300',
+                    background: '#fff',
+                    color: '#333',
+                    confirmButtonColor: '#FF3300',
+                    confirmButtonText: 'Ok',
+                    customClass: {
+                        popup: 'shadow-lg rounded-2xl',
+                        title: 'fw-bold fs-5',
+                        content: 'fs-6'
+                    }
+                });
+                return false; // bloque le submit si erreurs
+            }
+
+            // Si tout est OK, on submit normalement
+            form.submit();
+        });
+
 
 
     </script>

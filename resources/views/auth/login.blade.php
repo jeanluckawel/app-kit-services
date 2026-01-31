@@ -41,7 +41,7 @@
 
             <div class="login-logo d-flex justify-content-center align-items-center mb-3">
                 <img src="{{ asset('logo/img.png') }}" alt="Kit Services Logo" class="me-2" style="height:80px; width:auto;">
-                <span class="fs-4 fw-bold">Kit Services ff</span>
+                <span class="fs-4 fw-bold">Kit Services</span>
             </div>
 
             <p class="login-box-msg text-center">Sign in to start your session</p>
