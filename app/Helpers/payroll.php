@@ -7,11 +7,11 @@ if (!function_exists('payrollPeriod')) {
         $today = Carbon::now();
 
         if ($today->day < 16) {
-            // Avant le 16 → période du 16 du mois précédent au 15 du mois courant
+
             $start = Carbon::create($today->year, $today->month, 16)->subMonth()->format('d F');
             $end   = Carbon::create($today->year, $today->month, 15)->format('d F');
         } else {
-            // Après le 16 → période du 16 du mois courant au 15 du mois suivant
+
             $start = Carbon::create($today->year, $today->month, 16)->format('d F');
             $end   = Carbon::create($today->year, $today->month, 15)->addMonth()->format('d F');
         }

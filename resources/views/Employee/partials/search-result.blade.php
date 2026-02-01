@@ -66,11 +66,36 @@
 
                 <td class="text-center">
                     <div class="d-inline-flex gap-1">
-                        <a href="{{ route('employee.view', $employee->id) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
-                        <a href="{{ route('employee.edit', $employee->id) }}" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil-square"></i></a>
-                        <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#disableEmployeeModal" data-employee-id="{{ $employee->id }}"><i class="bi bi-trash"></i></button>
+
+
+                        @can('employee_view')
+                            <a href="{{ route('employee.view', $employee->id) }}"
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        @endcan
+
+
+                        @can('employee_edit')
+                            <a href="{{ route('employee.edit', $employee->id) }}"
+                               class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                        @endcan
+
+
+                        @can('employee_disable')
+                            <button class="btn btn-sm btn-outline-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#disableEmployeeModal"
+                                    data-employee-id="{{ $employee->id }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        @endcan
+
                     </div>
                 </td>
+
             </tr>
         @endforeach
         </tbody>

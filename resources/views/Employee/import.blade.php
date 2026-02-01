@@ -6,14 +6,26 @@
 
     <div class="card mb-4 m-5 border-0" style="border-radius:0;">
         <!-- Header -->
+        <!-- Import Employees Header -->
         <div class="card-header d-flex align-items-center"
              style="background-color: #FF6600; color: #fff; border-radius:0;">
             <h3 class="card-title mb-0">Import Employees from Excel</h3>
+
             <nav aria-label="breadcrumb" class="ms-auto">
                 <ol class="breadcrumb mb-0 bg-transparent">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="text-white">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('employee.list') }}" class="text-white">Employees</a>
-                    </li>
+
+                    @can('dashboard')
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('dashboard') }}" class="text-white">Home</a>
+                        </li>
+                    @endcan
+
+                    @can('employee_list')
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('employee.list') }}" class="text-white">Employees</a>
+                        </li>
+                    @endcan
+
                     <li class="breadcrumb-item active text-white" aria-current="page">Import</li>
                 </ol>
             </nav>

@@ -1,144 +1,178 @@
 @extends('layoutsddd.app')
 
-@section('title', 'Payroll History - KIT SERVICES')
+@section('title','Payroll History - KIT SERVICES')
 
 @section('content')
 
     <div class="card mb-4 m-5">
 
-        <!-- Header -->
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="card-title">Payroll List</h3>
-            <p class="mb-0">
-                Payroll Period:
-{{--                <strong>{{ \Carbon\Carbon::parse($start_date)->format('d/m/Y') }} → {{ \Carbon\Carbon::parse($end_date)->format('d/m/Y') }}</strong>--}}
-            <p class="mb-2">Du {{ payrollPeriod()['start'] }} au {{ payrollPeriod()['end'] }}</p>
+        <!-- HEADER -->
+        <div class="card-header">
+            <h3 class="card-title">Payroll History</h3>
 
+            <div class="card-tools">
+                <a href="{{ route('payroll.index') }}"
+                   class="btn btn-tool"
+                   style="background:#FF6600;color:#fff;width:40px;height:40px;">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+            </div>
         </div>
 
-        <!-- Body -->
+        <!-- BODY -->
         <div class="card-body">
 
-            <!-- Barre de recherche -->
+            <!-- FILTERS -->
             <div class="row mb-3">
-                <div class="col-md-4">
-                    <input type="text" id="searchPayroll" class="form-control" placeholder="Search by Employee number or name">
+
+                <div class="col-md-3">
+                    <input type="text" id="employee" class="form-control"
+                           placeholder="Employee name or ID"
+                           value="{{ request('employee') }}">
                 </div>
+
+                <div class="col-md-2">
+                    <input type="text" id="reference" class="form-control"
+                           placeholder="Reference"
+                           value="{{ request('reference') }}">
+                </div>
+
+                <div class="col-md-2">
+                    <select id="period" class="form-control">
+                        <option value="">Period</option>
+                        @for($i=1;$i<=12;$i++)
+                            <option value="{{ $i }}" {{ request('period')==$i?'selected':'' }}>
+                                {{ $i }}
+                            </option>
+                        @endfor
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <select id="year" class="form-control">
+                        <option value="">Year</option>
+                        @for($y=2024;$y<=2026;$y++)
+                            <option value="{{ $y }}" {{ request('year')==$y?'selected':'' }}>
+                                {{ $y }}
+                            </option>
+                        @endfor
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <select id="status" class="form-control">
+                        <option value="">Status</option>
+                        <option value="paid" {{ request('status')=='paid'?'selected':'' }}>Paid</option>
+                        <option value="pending" {{ request('status')=='pending'?'selected':'' }}>Pending</option>
+                    </select>
+                </div>
+
             </div>
 
+            <!-- TABLE -->
             <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle text-nowrap" id="payrollTable">
+
+                <table class="table table-bordered table-hover align-middle">
+
                     <thead class="table-light">
                     <tr>
                         <th>#</th>
                         <th>Employee</th>
                         <th>Department</th>
-                        <th>Age</th>
-                        <th>Salary (USD)</th>
-                        <th>Hire Date</th>
-                        <th>Contract</th>
-                        <th class="text-center">Actions</th>
+                        <th>Period</th>
+                        <th>Basic USD</th>
+                        <th>Net USD</th>
+                        <th>Reference</th>
+                        <th>Status</th>
+                        <th class="text-center">Action</th>
                     </tr>
                     </thead>
+
                     <tbody>
-                    @foreach($payrolls as $payroll)
-{{--                        @php--}}
-{{--                            $employee = $employee->$employee_id;--}}
-{{--                            $initials = strtoupper(substr($employee->first_name,0,1) . substr($employee->last_name,0,1));--}}
-{{--                            $bgColor = '#ff7f00';--}}
-{{--                        @endphp--}}
+                    @forelse($payrolls as $payroll)
                         <tr>
-{{--                            <td>{{ $loop->iteration + ($payrolls->currentPage()-1) * $payrolls->perPage() }}</td>--}}
+
                             <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    @if($employee->photo)
-                                        <img src="{{ asset('storage/'.$employee->photo) }}" alt="Photo" class="rounded-circle" width="45" height="45">
-                                    @else
-                                        <div class="rounded-circle d-flex justify-content-center align-items-center"
-                                             style="width:45px; height:45px; background-color: {{ $bgColor }}; color:white; font-weight:bold; font-size:16px;">
-                                            {{ $initials }}
-                                        </div>
-                                    @endif
-                                    <div>
-                                        <strong>{{ $employee->first_name }} {{ $employee->last_name }}</strong><br>
-                                        <small>{{ $employee->employee_id }}</small>
-                                    </div>
-                                </div>
+                                {{ $loop->iteration + ($payrolls->currentPage()-1) * $payrolls->perPage() }}
                             </td>
-                            <td>{{ $employee->company->department ?? 'N/A' }}</td>
-                            <td>{{ $employee->age ?? '-' }}</td>
-                            <td>{{ number_format($payroll->basic_usd ?? 0, 2) }}</td>
-                            <td>{{ $employee->company->hire_date ?? 'N/A' }}</td>
+
                             <td>
-                                @php
-                                    $type = $employee->company->contract_type ?? '';
-                                    $endDate = $employee->company->end_contract_date ?? null;
-                                @endphp
-                                @if(strtoupper($type) === 'CDD')
-                                    <span class="badge" style="background-color: #ff7f00; color:white;">
-                                    {{ $type }}
-                                        @if($endDate)
-                                            ({{ \Carbon\Carbon::parse($endDate)->format('d/m/Y') }})
-                                        @endif
-                                </span>
-                                @elseif(strtoupper($type) === 'CDI')
-                                    <span class="badge" style="background-color: #dc3545; color:white;">{{ $type }}</span>
-                                @else
-                                    <span>{{ $type }}</span>
-                                @endif
+                                <strong>
+                                    {{ $payroll->employee->first_name ?? '' }}
+                                    {{ $payroll->employee->last_name ?? '' }}
+                                </strong><br>
+                                <small>{{ $payroll->employee_id }}</small>
                             </td>
+
+                            <td>{{ $payroll->employee->company->department ?? 'N/A' }}</td>
+
+                            <td>{{ $payroll->period }}</td>
+
+                            <td>{{ number_format($payroll->basic_usd,2) }}</td>
+
+                            <td><strong>{{ number_format($payroll->net_salary,2) }}</strong></td>
+
+                            <td>{{ $payroll->reference }}</td>
+
+                            <td>
+<span class="badge {{ $payroll->status=='paid' ? 'bg-success' : 'bg-danger' }}">
+{{ ucfirst($payroll->status) }}
+</span>
+                            </td>
+
                             <td class="text-center">
-                                <div class="d-inline-flex gap-1">
-                                    <a href="{{ route('employee.view', $employee->id) }}" class="btn btn-sm btn-outline-primary" title="View">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                    <a href="{{ route('payroll.create', $employee->id) }}" class="btn btn-sm btn-outline-success" title="Payroll">
-                                        <i class="bi bi-cash-stack"></i>
-                                    </a>
-                                </div>
+                                <a href="{{ route('payroll.show', [$payroll->employee_id, $payroll->reference]) }}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+
                             </td>
+
+
+
+
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="9" class="text-center">No payroll found</td>
+                        </tr>
+                    @endforelse
                     </tbody>
+
                 </table>
 
-                <!-- Pagination -->
-                <div class="card-footer clearfix">
-                    <ul class="pagination pagination-sm m-0 float-end">
-                        @if($payrolls->onFirstPage())
-                            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
-                        @else
-                            <li class="page-item"><a class="page-link" href="{{ $payrolls->previousPageUrl() }}">&laquo;</a></li>
-                        @endif
-
-                        @foreach($payrolls->getUrlRange(1, $payrolls->lastPage()) as $page => $url)
-                            <li class="page-item {{ $payrolls->currentPage() == $page ? 'active' : '' }}">
-                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                            </li>
-                        @endforeach
-
-                        @if($payrolls->hasMorePages())
-                            <li class="page-item"><a class="page-link" href="{{ $payrolls->nextPageUrl() }}">&raquo;</a></li>
-                        @else
-                            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
-                        @endif
-                    </ul>
-                </div>
-
             </div>
-        </div>
 
+            <!-- PAGINATION -->
+            <div class="card-footer clearfix">
+                {{ $payrolls->links() }}
+            </div>
+
+        </div>
     </div>
 
-    <!-- Search JS -->
+    <!-- JS -->
     <script>
-        document.getElementById('searchPayroll').addEventListener('input', function() {
-            let filter = this.value.toLowerCase();
-            document.querySelectorAll('#payrollTable tbody tr').forEach(function(row) {
-                let text = row.textContent.toLowerCase();
-                row.style.display = text.includes(filter) ? '' : 'none';
-            });
+        const filters = ['employee','reference','period','year','status'];
+
+        filters.forEach(id=>{
+            document.getElementById(id).addEventListener('change', applyFilters);
         });
+
+        function applyFilters(){
+            let url = new URL(window.location.href);
+
+            filters.forEach(id=>{
+                let v = document.getElementById(id).value;
+                if(v){
+                    url.searchParams.set(id,v);
+                }else{
+                    url.searchParams.delete(id);
+                }
+            });
+
+            window.location.href = url.toString();
+        }
     </script>
 
 @endsection

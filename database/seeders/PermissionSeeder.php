@@ -13,39 +13,83 @@ class PermissionSeeder extends Seeder
     {
 
         $permissions = [
-            // Employees
-            'create_employee',
-            'view_employee',
-            'edit_employee',
-            'delete_employee',
-            'import_employee',
-            'export_employee',
 
-            // Customers
-            'create_customer',
-            'view_customer',
-            'edit_customer',
-            'delete_customer',
-            'create_invoice',
-            'view_invoice',
-            'edit_invoice',
-            'delete_invoice',
+            'dashboard',
 
-            // Users
-            'create_user',
-            'view_user',
-            'edit_user',
-            'delete_user',
+// Employees
+            'employee_create',
+            'employee_store',
+            'employee_list',
+            'employee_view',
+            'employee_edit',
+            'employee_disable',
+            'employee_import',
+            'employee_export',
+            'employee_search',
+            'employee_cdd',
+            'employee_cdi',
+            'employee_contract_end',
+            'employee_certificate',
+            'employee_address',
+            'employee_photo',
+            'employee_company',
+            'employee_children',
+            'employee_dependants',
+            'employee_emergency',
+            'employee_salary',
 
-            // Roles
-            'create_role',
-            'view_role',
-            'edit_role',
-            'delete_role',
 
-            // Aucun rôle
-            'none',
+
+// Customers
+            'customer_list',
+            'customer_create',
+            'customer_store',
+            'customer_edit',
+            'customer_delete',
+            'customer_search',
+
+// Invoices
+            'invoice_statement',
+            'invoice_create',
+            'invoice_store',
+            'invoice_view',
+            'invoice_edit',
+            'invoice_delete',
+            'invoice_search_number',
+
+// Users
+            'user_list',
+            'user_create',
+            'user_store',
+            'user_edit',
+            'user_delete',
+            'user_search',
+            'user_update_permissions',
+
+// Roles
+            'role_list',
+            'role_create',
+            'role_store',
+            'role_edit',
+            'role_delete',
+
+// Payroll
+            'payroll_list',
+            'payroll_search',
+            'payroll_create',
+            'payroll_store',
+            'payroll_edit',
+            'payroll_view',
+            'payroll_history',
+            'payroll_export',
+            'payroll_export_view',
+
+// Language
+            'language_switch',
+
         ];
+
+
 
         foreach ($permissions as $permission) {
             Permission::firstOrCreate([
@@ -58,13 +102,11 @@ class PermissionSeeder extends Seeder
         $roles = [
             'admin' => Permission::all()->pluck('name')->toArray(),
             'drh' => [
-                'create_employee', 'view_employee', 'edit_employee', 'delete_employee',
-                'import_employee', 'export_employee',
-                'create_customer', 'view_customer', 'edit_customer', 'delete_customer',
-                'create_invoice', 'view_invoice', 'edit_invoice', 'delete_invoice',
+                'language_switch'
+
             ],
             'clerk' => [
-                'create_employee', 'view_employee',
+                'language_switch',
             ],
             'none' => [],
         ];

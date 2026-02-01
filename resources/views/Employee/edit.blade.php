@@ -18,12 +18,24 @@
             </h3>
             <nav aria-label="breadcrumb" class="ms-auto">
                 <ol class="breadcrumb mb-0 bg-transparent">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="text-white">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('employee.list') }}" class="text-white">Employee</a>
-                    </li>
+
+                    @can('dashboard')
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('dashboard') }}" class="text-white">Home</a>
+                        </li>
+                    @endcan
+
+                    @can('employee_list')
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('employee.list') }}" class="text-white">Employee</a>
+                        </li>
+                    @endcan
+
                     <li class="breadcrumb-item active text-white" aria-current="page">Edit</li>
+
                 </ol>
             </nav>
+
         </div>
 
         <div class="card-body">
@@ -31,57 +43,85 @@
                   autocomplete="off">
                 @csrf
                 @method('PUT')
-
                 <ul class="nav nav-tabs mb-4" id="employeeTab" role="tablist" style="border-radius:0;">
+                    {{-- Onglet Personal toujours visible --}}
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="personal-tab" data-bs-toggle="tab"
                                 data-bs-target="#personal" type="button" role="tab"
                                 style="color:#FF6600; font-weight:500;">
-                            Personal
+                            <i class="bi bi-person-fill me-1"></i> Personal
                         </button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address"
-                                type="button" role="tab" style="color:#FF6600; font-weight:500;">
-                            Address
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="company-tab" data-bs-toggle="tab" data-bs-target="#company"
-                                type="button" role="tab" style="color:#FF6600; font-weight:500;">
-                            Company
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="children-tab" data-bs-toggle="tab" data-bs-target="#children"
-                                type="button" role="tab" style="color:#FF6600; font-weight:500;">
-                            Children
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="dependants-tab" data-bs-toggle="tab" data-bs-target="#dependants"
-                                type="button" role="tab" style="color:#FF6600; font-weight:500;">
-                            Dependants
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="emergency-tab" data-bs-toggle="tab" data-bs-target="#emergency"
-                                type="button" role="tab" style="color:#FF6600; font-weight:500;">
-                            Emergency
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="salary-tab" data-bs-toggle="tab" data-bs-target="#salary"
-                                type="button" role="tab" style="color:#FF6600; font-weight:500;">
-                            Salary
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="photo-tab" data-bs-toggle="tab" data-bs-target="#photo"
-                                type="button" role="tab" style="color:#FF6600; font-weight:500;">
-                            Photo
-                        </button>
-                    </li>
+
+                    {{-- Address --}}
+                    @can('employee_address')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address"
+                                    type="button" role="tab" style="color:#FF6600; font-weight:500;">
+                                <i class="bi bi-geo-alt-fill me-1"></i> Address
+                            </button>
+                        </li>
+                    @endcan
+
+                    {{-- Company --}}
+                    @can('employee_company')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="company-tab" data-bs-toggle="tab" data-bs-target="#company"
+                                    type="button" role="tab" style="color:#FF6600; font-weight:500;">
+                                <i class="bi bi-briefcase-fill me-1"></i> Company
+                            </button>
+                        </li>
+                    @endcan
+
+                    {{-- Children --}}
+                    @can('employee_children')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="children-tab" data-bs-toggle="tab" data-bs-target="#children"
+                                    type="button" role="tab" style="color:#FF6600; font-weight:500;">
+                                <i class="bi bi-book-fill me-1"></i> Children
+                            </button>
+                        </li>
+                    @endcan
+
+                    {{-- Dependants --}}
+                    @can('employee_dependants')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="dependants-tab" data-bs-toggle="tab" data-bs-target="#dependants"
+                                    type="button" role="tab" style="color:#FF6600; font-weight:500;">
+                                <i class="bi bi-people-fill me-1"></i> Dependants
+                            </button>
+                        </li>
+                    @endcan
+
+                    {{-- Emergency --}}
+                    @can('employee_emergency')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="emergency-tab" data-bs-toggle="tab" data-bs-target="#emergency"
+                                    type="button" role="tab" style="color:#FF6600; font-weight:500;">
+                                <i class="bi bi-telephone-fill me-1"></i> Emergency
+                            </button>
+                        </li>
+                    @endcan
+
+                    {{-- Salary --}}
+                    @can('employee_salary')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="salary-tab" data-bs-toggle="tab" data-bs-target="#salary"
+                                    type="button" role="tab" style="color:#FF6600; font-weight:500;">
+                                <i class="bi bi-cash-stack me-1"></i> Salary
+                            </button>
+                        </li>
+                    @endcan
+
+                    {{-- Photo --}}
+                    @can('employee_photo')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="photo-tab" data-bs-toggle="tab" data-bs-target="#photo"
+                                    type="button" role="tab" style="color:#FF6600; font-weight:500;">
+                                <i class="bi bi-camera-fill me-1"></i> Photo
+                            </button>
+                        </li>
+                    @endcan
                 </ul>
 
                 <!-- Tabs content -->

@@ -6,36 +6,31 @@
 
     <div class="card mb-4 m-5">
 
-        <div class="card-header ">
-            <h3 class="card-title">Employee List</h3>
-            <div class="card-tools">
-                <button
-                    type="button"
-                    class="btn btn-tool"
-                    data-lte-toggle="card-collapse"
-                    title="Collapse"
-                ></button>
+        <!-- CDD Contracts Header -->
+        <div class="card-header d-flex align-items-center"
+             style="background-color: #FF6600; color: #fff; border-radius:0;">
+            <h3 class="card-title mb-0">CDD Contracts</h3>
 
+            <nav aria-label="breadcrumb" class="ms-auto">
+                <ol class="breadcrumb mb-0 bg-transparent">
 
-                <button
-                    type="button"
-                    class="btn btn-tool"
-                    title="add new employee"
-                    style="
-                background:#FF6600;
-                color:#fff;
-                width:40px;
-                height:40px;
-            "
-                >
-                    <a href="{{ route('employee.create') }}" class="text-decoration-none"
-                       style="color: white; font-size: 20px">
-                        <i class="bi bi-plus-lg"></i>
-                    </a>
-                </button>
+                    @can('dashboard')
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('dashboard') }}" class="text-white">Home</a>
+                        </li>
+                    @endcan
 
-            </div>
+                    @can('employee_list')
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('employee.list') }}" class="text-white">Employees</a>
+                        </li>
+                    @endcan
+
+                    <li class="breadcrumb-item active text-white" aria-current="page">CDD Contracts</li>
+                </ol>
+            </nav>
         </div>
+
 
         <div class="card-body">
 

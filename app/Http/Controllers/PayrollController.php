@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PayrollExport;
 use App\Models\Employee\Employee;
 use App\Models\Payroll;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PayrollController extends Controller
 {
@@ -242,10 +244,18 @@ class PayrollController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Payroll $payroll)
+    public function show($employeeId, $payrollReference)
     {
-        //
+        $payroll = Payroll::with('employee.company')
+            ->where('employee_id', $employeeId)
+            ->where('reference', $payrollReference)
+            ->firstOrFail();
+
+        return view('payroll.show', compact('payroll'));
     }
+
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -331,13 +341,65 @@ class PayrollController extends Controller
 //        return view('payroll.history', compact('payrolls','periods','selectedStart','selectedEnd'));
 //    }
 
-    public function history() {
-        $payrolls = Payroll::all();
+    public function history(Request $request)
+    {
+        $query = Payroll::with('employee.company');
 
-        $employee = $payrolls->pluck('employee_id')->unique();
 
-        return view('Payroll.history', compact('payrolls','employee'));
+        if ($request->filled('employee')) {
+            $query->whereHas('employee', function ($q) use ($request) {
+                $q->where('first_name', 'like', '%'.$request->employee.'%')
+                    ->orWhere('last_name', 'like', '%'.$request->employee.'%')
+                    ->orWhere('employee_id', 'like', '%'.$request->employee.'%');
+            });
+        }
+
+
+        if ($request->filled('reference')) {
+            $query->where('reference','like','%'.$request->reference.'%');
+        }
+
+
+        if ($request->filled('period')) {
+            $query->where('period',$request->period);
+        }
+
+
+        if ($request->filled('year')) {
+            $query->whereYear('created_at',$request->year);
+        }
+
+
+        if ($request->filled('status')) {
+            $query->where('status',$request->status);
+        }
+
+        $payrolls = $query
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('payroll.history', compact('payrolls'));
     }
+
+
+    public function exportview()
+    {
+        $employees = Employee::all();
+
+        return view('payroll.export', compact('employees'));
+    }
+
+
+
+    public function export(Request $request)
+    {
+        $filters = $request->only(['year', 'period', 'employee_id']);
+
+        return Excel::download(new PayrollExport($filters), 'payroll.xlsx');
+    }
+
+
 
 
 }

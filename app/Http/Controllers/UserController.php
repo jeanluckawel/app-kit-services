@@ -122,30 +122,35 @@ class UserController extends Controller
 
     public function editPermissions(User $user)
     {
-        $permissions = Permission::all();
-        $permissionsGrouped = $permissions->groupBy(function($perm) {
+        $permissions = \Spatie\Permission\Models\Permission::all();
+
+
+        $permissionsGrouped = $permissions->groupBy(function ($perm) {
             return explode('_', $perm->name)[0];
         });
+
         return view('users.edit-permissions', compact('user', 'permissionsGrouped'));
     }
 
+    /**
+     * Met à jour les permissions de l'utilisateur
+     */
     public function updatePermissions(Request $request, User $user)
     {
         $request->validate([
-            'permissions' => 'array',
+            'permissions' => 'sometimes|array',
             'permissions.*' => 'string|exists:permissions,name',
         ]);
 
-        // On s'assure que le guard_name est correct
-        $permissions = $request->permissions ?? [];
 
-        // Si tes permissions ont guard 'web', Spatie les trouve
+        $permissions = $request->input('permissions', []);
+
+
         $user->syncPermissions($permissions);
 
         return redirect()->route('roles.index')
-            ->with('success', 'Permissions updated successfully.');
+        ->with('success', 'Permissions updated successfully.');
     }
-
 
 
 }

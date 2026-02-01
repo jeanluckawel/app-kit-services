@@ -21,134 +21,139 @@
                         {{ session('success') }}
                     </div>
                 @endif
+                    <form action="{{ route('customer.store') }}" method="POST">
+                        @csrf
 
-                <form action="{{ route('customer.store') }}" method="POST">
-                    @csrf
+                        <!-- BASIC INFO -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">
+                                    Customer Name <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" name="name" class="form-control"
+                                       placeholder="Company Name"
+                                       required
+                                       style="border-radius:0;"
+                                       pattern="[A-Za-z0-9\s]{3,}"
+                                       title="Name must be at least 3 characters"
+                                       oninvalid="this.setCustomValidity('Please enter a valid customer name (min 3 chars)')"
+                                       oninput="this.setCustomValidity('')"
+                                       autocomplete="new-company">
+                            </div>
 
-                    <!-- BASIC INFO -->
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="fw-bold">Customer Name <span class="text-danger">*</span></label>
-                            <input type="text"
-                                   name="name"
-                                   class="form-control"
-                                   style="border-radius:0;"
-                                   required>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">National ID</label>
+                                <input type="text" name="id_nat" class="form-control"
+                                       placeholder="National ID"
+                                       style="border-radius:0;"
+                                       autocomplete="off">
+                            </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <label class="fw-bold">National ID</label>
-                            <input type="text"
-                                   name="id_nat"
-                                   class="form-control"
-                                   style="border-radius:0;">
-                        </div>
-                    </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">RCCM</label>
+                                <input type="text" name="rccm" class="form-control"
+                                       placeholder="RCCM"
+                                       style="border-radius:0;"
+                                       autocomplete="off">
+                            </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="fw-bold">RCCM</label>
-                            <input type="text"
-                                   name="rccm"
-                                   class="form-control"
-                                   style="border-radius:0;">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="fw-bold">NIF</label>
-                            <input type="text"
-                                   name="nif"
-                                   class="form-control"
-                                   style="border-radius:0;">
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <!-- ADDRESS -->
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label class="fw-bold">Province</label>
-                            <input type="text"
-                                   name="province"
-                                   class="form-control"
-                                   style="border-radius:0;">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">NIF</label>
+                                <input type="text" name="nif" class="form-control"
+                                       placeholder="NIF"
+                                       style="border-radius:0;"
+                                       autocomplete="off">
+                            </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <label class="fw-bold">City</label>
-                            <input type="text"
-                                   name="ville"
-                                   class="form-control"
-                                   style="border-radius:0;">
+                        <hr>
+
+                        <!-- ADDRESS -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Province</label>
+                                <input type="text" name="province" class="form-control"
+                                       placeholder="Province"
+                                       style="border-radius:0;"
+                                       autocomplete="off">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">City</label>
+                                <input type="text" name="ville" class="form-control"
+                                       placeholder="City"
+                                       style="border-radius:0;"
+                                       autocomplete="off">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Commune</label>
+                                <input type="text" name="commune" class="form-control"
+                                       placeholder="Commune"
+                                       style="border-radius:0;"
+                                       autocomplete="off">
+                            </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <label class="fw-bold">Commune</label>
-                            <input type="text"
-                                   name="commune"
-                                   class="form-control"
-                                   style="border-radius:0;">
-                        </div>
-                    </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">District</label>
+                                <input type="text" name="quartier" class="form-control"
+                                       placeholder="District"
+                                       style="border-radius:0;"
+                                       autocomplete="off">
+                            </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label class="fw-bold">District</label>
-                            <input type="text"
-                                   name="quartier"
-                                   class="form-control"
-                                   style="border-radius:0;">
-                        </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Avenue</label>
+                                <input type="text" name="avenue" class="form-control"
+                                       placeholder="Avenue"
+                                       style="border-radius:0;"
+                                       autocomplete="off">
+                            </div>
 
-                        <div class="col-md-4">
-                            <label class="fw-bold">Avenue</label>
-                            <input type="text"
-                                   name="avenue"
-                                   class="form-control"
-                                   style="border-radius:0;">
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="fw-bold">Number</label>
-                            <input type="text"
-                                   name="numero"
-                                   class="form-control"
-                                   style="border-radius:0;">
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <!-- CONTACT -->
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <label class="fw-bold">Phone</label>
-                            <input type="text"
-                                   name="telephone"
-                                   class="form-control"
-                                   style="border-radius:0;">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Number</label>
+                                <input type="text" name="numero" class="form-control"
+                                       placeholder="Number"
+                                       style="border-radius:0;"
+                                       autocomplete="off">
+                            </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <label class="fw-bold">Email</label>
-                            <input type="email"
-                                   name="email"
-                                   class="form-control"
-                                   style="border-radius:0;">
+                        <hr>
+
+                        <!-- CONTACT -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Phone</label>
+                                <input type="text" name="telephone" class="form-control"
+                                       placeholder="Phone"
+                                       style="border-radius:0;"
+                                       autocomplete="off">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Email</label>
+                                <input type="email" name="email" class="form-control"
+                                       placeholder="Email"
+                                       style="border-radius:0;"
+                                       autocomplete="off">
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- ACTION -->
-                    <div class="text-end">
-                        <button type="submit"
-                                class="btn text-white"
-                                style="background-color:#FF6600;border-color:#FF6600;">
-                            Save
-                        </button>
-                    </div>
-
-                </form>
+                        <!-- ACTION -->
+                        <div class="text-end mt-4">
+                            <button type="submit"
+                                    class="btn text-white"
+                                    style="background-color:#FF6600;border-color:#FF6600;">
+                                Save
+                            </button>
+                            <a href="{{ route('customer.index') }}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
 
             </div>
         </div>

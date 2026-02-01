@@ -88,6 +88,9 @@ Route::middleware(['auth','verified'])->group(function () {
 });
 
 Route::middleware(['auth','verified'])->group(function () {
+    Route::get('invoices/statement', [InvoiceController::class, 'statement'])
+        ->name('invoice.statement');
+
     Route::get('/customers/{customer}/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
     Route::post('/customers/{customer}/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
     Route::get('/customers/search', [CustomerController::class, 'search'])->name('customer.search');
@@ -95,6 +98,11 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('/invoices/{invoice}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
     Route::put('/invoices/{invoice}', [InvoiceController::class, 'update'])->name('invoices.update');
     Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+
+    Route::get('invoices/number/{numero}', [InvoiceController::class,'showByNumber'])
+        ->name('invoices.showByNumber');
+
+
 });
 
 Route::middleware(['auth','verified'])->group(function () {
@@ -159,9 +167,19 @@ Route::middleware(['auth', 'verified'])->group( function () {
     Route::get('payroll/history', [PayrollController::class, 'history'])
         ->name('payroll.history');
 
-//    Route::get('/employees/{employee}/payroll/history', [PayrollController::class, 'history'])
-//        ->name('payroll.history');
+
+    Route::get('/payroll/{employee}/{payroll}', [PayrollController::class, 'show'])
+        ->name('payroll.show');
+
+
+
+    Route::get('/payroll/export', [PayrollController::class, 'export'])->name('payroll.export');
+
+
+    Route::get('/payroll/view', [PayrollController::class, 'exportview'])->name('payroll.exportView');
+
 
 });
+
 
 require __DIR__.'/auth.php';

@@ -1,3 +1,6 @@
+
+
+
 @extends('layoutsddd.app')
 
 @section('title', 'Facture')
@@ -5,12 +8,10 @@
 @section('content')
 
     <div class="d-flex justify-content-center my-5">
-
-
         <div id="invoice-content" class="shadow p-5 bg-white"
              style="max-width: 21cm; min-height: 29.7cm; font-size: 14px; box-sizing: border-box;">
 
-
+            <!-- HEADER -->
             <div class="row border-bottom pb-3 mb-4">
                 <div class="col-md-4">
                     <h4 class="text-orange fw-bold">KIT SERVICE SARL</h4>
@@ -22,43 +23,30 @@
                     <p class="mb-1">ID NAT: 05-H5300-N876458R</p>
                     <p class="mb-1">RCCM: CD/LSH/RCCM/20-B-00584</p>
                 </div>
-{{--                <div class="col-md-4">--}}
-{{--                    <h5 class="fw-semibold">To: {{ $customer->name ?? '' }}</h5>--}}
-{{--                    <p class="mb-1">Avenue {{ $customer->avenue }}, Quartier {{ $customer->quartier }}</p>--}}
-{{--                    <p class="mb-1">Commune de {{ $customer->commune }}, Ville de {{ $customer->ville }}</p>--}}
-{{--                    <p class="mb-1">Province du {{ $customer->province }}, RDC</p>--}}
-{{--                    <p class="mb-1">ID NAT : {{ $customer->id_nat }}</p>--}}
-{{--                    <p class="mb-1">RCCM : {{ $customer->rccm }}</p>--}}
-{{--                    <p class="mb-1">NIF : {{ $customer->nif }}</p>--}}
-{{--                </div>--}}
+
                 <div class="col-md-4">
-                    <h4 class="fw-semibold">To : KAMOA COPPER SA</h4>
-                    <p class="mb-1">Appartements 3 et 4, Bâtiment 2404, 999, RN 39</p>
-                    <p class="mb-1">Avenue Route Likasi, Quartier Joli-Site</p>
-                    <p class="mb-1">Commune de Manika, Ville de Kolwezi</p>
-                    <p class="mb-1">Province du Lualaba, RDC</p>
-                    <p class="mb-1">ID NAT : 05-B0500-N37233J</p>
-                    <p class="mb-1">RCCM : 14-B-1683</p>
-                    <p class="mb-1">NIF : A0901048A</p>
+                    <h4 class="fw-semibold">To : {{ $customer->name ?? '' }}</h4>
+                    @if($customer && $customer->name === 'KAMOA COPPER SA')
+                        <p class="mb-1">Appartements 3 et 4, Bâtiment 2404, 999, RN 39</p>
+                    @endif
+                    <p class="mb-1">{{ $customer->numero ?? '' }}, {{ $customer->avenue  ?? '' }}, {{ $customer->quartier  ?? '' }}</p>
+                    <p class="mb-1">Commune de {{ $customer->commune ?? '' }}, Ville de {{ $customer->ville ?? '' }}</p>
+                    <p class="mb-1">Province du {{ $customer->province ?? '' }}, RDC</p>
+                    <p class="mb-1">ID NAT : {{ $customer->id_nat ?? '' }}</p>
+                    <p class="mb-1">RCCM : {{ $customer->rccm ?? '' }}</p>
+                    <p class="mb-1">NIF : {{ $customer->nif ?? '' }}</p>
                 </div>
 
                 <div class="col-md-4 text-end">
                     <img src="{{ asset('logo/img.png') }}" alt="Kit Service Logo" class="img-fluid mb-2" style="max-height:100px;">
                     <h4 class="fw-bold text-dark">INVOICE</h4>
-                    <p class="mb-1">No. {{ $invoice->numero_invoice }}</p>
-                    <p class="mb-1">Date: {{ \Carbon\Carbon::parse($invoice->created_at)->format('j/n/Y') }}</p>
-                    <p class="mb-1">Order No: {{ $invoice->po }}</p>
+                    <p class="mb-1">No. {{ $invoices->first()->numero_invoice ?? '' }}</p>
+                    <p class="mb-1">Date: {{ \Carbon\Carbon::parse($invoices->first()->created_at ?? now())->format('j/n/Y') }}</p>
+                    <p class="mb-1">Order No: {{ $invoices->first()->po ?? '' }}</p>
                 </div>
             </div>
 
-
-            <div class="mb-4">
-                <h6 class="fw-semibold">Customer</h6>
-                <p class="mb-0"><i>{{ $customer->name }}</i></p>
-                <p><i>{{ $customer->ville }} - {{ $customer->province }}</i></p>
-            </div>
-
-
+            <!-- TABLE DES LIGNES -->
             <div class="table-responsive">
                 <table class="table table-bordered table-sm">
                     <thead class="table-light">
@@ -73,15 +61,15 @@
                     </thead>
                     <tbody>
                     @php $total = 0; @endphp
-                    @foreach($invoices as $key => $invoice)
-                        @php $total += $invoice->pt_mois; @endphp
+                    @foreach($invoices as $key => $line)
+                        @php $total += $line->pt_mois; @endphp
                         <tr>
                             <td>{{ $key + 1 }}</td>
-                            <td>{{ $invoice->description }}</td>
-                            <td class="text-center">{{ $invoice->unite }}</td>
-                            <td class="text-center">{{ $invoice->quantity }}</td>
-                            <td class="text-end">$ {{ number_format($invoice->pu, 2) }}</td>
-                            <td class="text-end">$ {{ number_format($invoice->pt_mois, 2) }}</td>
+                            <td>{{ $line->description }}</td>
+                            <td class="text-center">{{ $line->unite }}</td>
+                            <td class="text-center">{{ $line->quantity }}</td>
+                            <td class="text-end">$ {{ number_format($line->pu, 2) }}</td>
+                            <td class="text-end">$ {{ number_format($line->pt_mois, 2) }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -112,7 +100,7 @@
                 </div>
             </div>
 
-
+            <!-- Bank details -->
             <div class="mt-5">
                 <h6 class="fw-semibold text-decoration-underline">Bank details</h6>
                 <p>Nom de la banque : RAWBANK</p>
@@ -121,19 +109,22 @@
                 <p>Swift code : RAWBCDRC</p>
             </div>
 
-
+            <!-- Footer -->
             <div class="mt-4 text-muted">
                 <p>Thank you for your business!</p>
                 <p>For any inquiries, please contact us at <a href="mailto:kitservice17@gmail.com" class="text-decoration-underline">kitservice17@gmail.com</a></p>
             </div>
 
         </div>
-
     </div>
 
-
+    <!-- Boutons -->
     <div class="d-flex justify-content-center mt-4 gap-2">
-        <button onclick="goBackSmooth()" class="btn btn-danger btn-sm">Retour</button>
+        <a href="{{ route('invoice.statement') }}">
+            <button class="btn btn-danger btn-sm">Retour</button>
+        </a>
+
+
         <button onclick="downloadPDF()" class="btn btn-dark btn-sm">Télécharger PDF</button>
     </div>
 
@@ -150,7 +141,7 @@
         function downloadPDF() {
             const element = document.getElementById('invoice-content');
             const options = {
-                filename: 'Facture_KIT_SERVICE_{{$customer->name}}.pdf',
+                filename: 'Facture_KIT_SERVICE_{{ $customer->name ?? "client" }}.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 3 },
                 jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
@@ -165,8 +156,6 @@
             margin-left: auto;
             margin-right: auto;
         }
-
-
         #invoice-content p,
         #invoice-content td,
         #invoice-content th,
@@ -175,7 +164,6 @@
         #invoice-content h6 {
             font-size: 14px;
         }
-
         table {
             table-layout: auto;
             word-wrap: break-word;
@@ -183,3 +171,4 @@
     </style>
 
 @endsection
+

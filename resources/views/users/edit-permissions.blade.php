@@ -16,7 +16,7 @@
                     @method('PUT')
 
                     @foreach($permissionsGrouped as $group => $permissions)
-                        <div class="mb-2">
+                        <div class="mb-3">
                         <span class="fw-semibold text-success small" style="font-size: 0.85rem;">
                             {{ ucfirst($group) }}:
                         </span>
@@ -42,12 +42,12 @@
                         <div style="flex-basis: 100%;"></div>
                         <div><strong>Permissions:</strong>
                             <span id="preview-permissions">
-                            {{ implode(', ', $user->permissions->pluck('name')->toArray()) }}
+                            {{ implode(', ', $user->permissions->pluck('name')->toArray()) ?: '-' }}
                         </span>
                         </div>
                     </div>
 
-                    <div class="text-right mt-3">
+                    <div class="text-end mt-3">
                         <button type="submit" class="btn btn-orange px-3 py-1">Update Permissions</button>
                     </div>
                 </form>
@@ -90,12 +90,13 @@
 
             tag.addEventListener('click', function() {
                 tag.classList.toggle('active');
-                checkbox.checked = tag.classList.contains('active'); // <-- synchronisation fiable
+                checkbox.checked = tag.classList.contains('active');
 
                 // Update preview
                 const selected = Array.from(permissionTags)
                     .filter(t => t.querySelector('input').checked)
                     .map(t => t.querySelector('input').value);
+
                 previewPermissions.textContent = selected.join(', ') || '-';
             });
         });

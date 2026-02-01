@@ -1,177 +1,3 @@
-{{--<div class="sidebar-wrapper">--}}
-{{--    <nav class="mt-2">--}}
-{{--        <!-- Sidebar Menu -->--}}
-{{--        <ul--}}
-{{--            class="nav sidebar-menu flex-column"--}}
-{{--            data-lte-toggle="treeview"--}}
-{{--            role="navigation"--}}
-{{--            aria-label="Main navigation"--}}
-{{--            data-accordion="false"--}}
-{{--            id="navigation"--}}
-{{--        >--}}
-{{--            <!-- Dashboard -->--}}
-{{--            @can('view-dashboard')--}}
-{{--                <li class="nav-item">--}}
-{{--                    <a href="{{ route('dashboard') }}" class="nav-link">--}}
-{{--                        <i class="nav-icon bi bi-speedometer"></i>--}}
-{{--                        <p>Dashboard</p>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--            @endcan--}}
-
-{{--            <!-- Employees Section -->--}}
-{{--            @if(auth()->check() && (--}}
-{{--                auth()->user()->can('create_employee') ||--}}
-{{--                auth()->user()->can('view_employee') ||--}}
-{{--                auth()->user()->can('import_employee') ||--}}
-{{--                auth()->user()->can('export_employee')--}}
-{{--            ))--}}
-{{--                <li class="nav-header">EMPLOYEES</li>--}}
-{{--                @can('create_employee')--}}
-{{--                <li class="nav-item">--}}
-{{--                    <a href="{{ route('employee.create') }}" class="nav-link">--}}
-{{--                        <i class="nav-icon bi bi-person-plus-fill"></i>--}}
-{{--                        <p>Add</p>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--                @endcan--}}
-
-{{--                @can('view_employee')--}}
-
-{{--                <li class="nav-item">--}}
-{{--                    <a href="{{ route('employee.list') }}" class="nav-link">--}}
-{{--                        <i class="nav-icon bi bi-people-fill"></i>--}}
-{{--                        <p>List</p>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-
-{{--                @endcan--}}
-
-{{--                @can('import_employee')--}}
-
-{{--                <li class="nav-item">--}}
-{{--                    <a href="{{ route('employee.import.show') }}" class="nav-link">--}}
-{{--                        <i class="nav-icon bi bi-file-arrow-up"></i>--}}
-{{--                        <p>Import</p>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-
-{{--                @endcan--}}
-
-{{--                @can('export_employee')--}}
-
-{{--                <li class="nav-item">--}}
-{{--                    <a href="{{ route('employee.export.show') }}" class="nav-link">--}}
-{{--                        <i class="nav-icon bi bi-file-arrow-down"></i>--}}
-{{--                        <p>Export</p>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-
-{{--                    <li class="nav-item">--}}
-{{--                        <a href="{{ route('employee.cdd') }}" class="nav-link">--}}
-{{--                            <i class="nav-icon bi bi-file-earmark-text"></i>--}}
-{{--                            <p>CDD</p>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-
-{{--                    <li class="nav-item">--}}
-{{--                        <a href="{{ route('employee.cdi') }}" class="nav-link">--}}
-{{--                            <i class="nav-icon bi bi-file-earmark-check"></i>--}}
-{{--                            <p>CDI</p>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-
-
-{{--                @endcan--}}
-
-{{--            @endif--}}
-
-
-
-{{--            <!-- Invoices Section -->--}}
-
-{{--                <li class="nav-header">INVOICES</li>--}}
-
-{{--                @can('view_customer')--}}
-
-{{--                    <li class="nav-item">--}}
-{{--                        <a href="{{ route('customer.index') }}" class="nav-link">--}}
-{{--                            <i class="nav-icon bi bi-receipt"></i>--}}
-{{--                            <p>All Customers</p>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-{{--                @endcan--}}
-
-
-
-
-
-{{--                <li class="nav-item">--}}
-{{--                    <a href="#" class="nav-link">--}}
-{{--                        <i class="nav-icon bi bi-plus-square"></i>--}}
-{{--                        <p>All Statement</p>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-
-{{--                @can('create_customer')--}}
-
-{{--                    <li class="nav-item">--}}
-{{--                        <a href="{{ route('customer.create') }}" class="nav-link">--}}
-{{--                            <i class="nav-icon bi bi-person-plus"></i>--}}
-{{--                            <p>Create Customer</p>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-
-{{--                @endcan--}}
-
-{{--                <li class="nav-item">--}}
-{{--                    <a href="#" class="nav-link">--}}
-{{--                        <i class="nav-icon bi bi-file-plus"></i>--}}
-{{--                        <p>Create Invoice</p>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-
-
-
-
-
-
-{{--            <li class="nav-header">CONFIGURATION</li>--}}
-
-{{--            <li class="nav-item">--}}
-{{--                <a href="{{ route('users.index') }}" class="nav-link">--}}
-{{--                    <i class="nav-icon bi bi-people"></i>--}}
-{{--                    <p>All Users</p>--}}
-{{--                </a>--}}
-{{--            </li>--}}
-
-{{--            <li class="nav-item">--}}
-{{--                <a href="{{ route('users.create') }}" class="nav-link">--}}
-{{--                    <i class="nav-icon bi bi-person-plus"></i>--}}
-{{--                    <p>Create User</p>--}}
-{{--                </a>--}}
-{{--            </li>--}}
-
-{{--            <li class="nav-item">--}}
-{{--                <a href="{{ route('roles.index') }}" class="nav-link">--}}
-{{--                    <i class="nav-icon bi bi-shield-lock"></i>--}}
-{{--                    <p>All Roles</p>--}}
-{{--                </a>--}}
-{{--            </li>--}}
-
-{{--            <li class="nav-item">--}}
-{{--                <a href="{{ route('roles.create') }}" class="nav-link">--}}
-{{--                    <i class="nav-icon bi bi-file-plus"></i>--}}
-{{--                    <p>Create Role</p>--}}
-{{--                </a>--}}
-{{--            </li>--}}
-
-
-
-{{--        </ul>--}}
-{{--    </nav>--}}
-{{--</div>--}}
-
 <div class="sidebar-wrapper">
     <nav class="mt-2">
         <ul class="nav sidebar-menu flex-column"
@@ -181,181 +7,193 @@
             data-accordion="false"
             id="navigation">
 
-            {{-- Dashboard --}}
-{{--            @can('view-dashboard')--}}
+
+            @can('dashboard')
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link">
                         <i class="nav-icon bi bi-speedometer"></i>
-                        <p>{{ __('Dashboard') }}</p>
+                        <p>Dashboard</p>
                     </a>
                 </li>
-{{--            @endcan--}}
+            @endcan
 
-            {{-- Employees --}}
-            @if(auth()->check() && (
-                auth()->user()->can('create_employee') ||
-                auth()->user()->can('view_employee') ||
-                auth()->user()->can('import_employee') ||
-                auth()->user()->can('export_employee')
-            ))
 
-                <li class="nav-header">{{ __('Employees') }}</li>
 
-                @can('create_employee')
+            @canany([
+                'employee_create',
+                'employee_list',
+                'employee_import',
+                'employee_export',
+                'employee_cdd',
+                'employee_cdi'
+            ])
+                <li class="nav-header">Employees</li>
+
+                @can('employee_create')
                     <li class="nav-item">
                         <a href="{{ route('employee.create') }}" class="nav-link">
                             <i class="nav-icon bi bi-person-plus-fill"></i>
-                            <p>{{ __('Add Employee') }}</p>
+                            <p>Add Employee</p>
                         </a>
                     </li>
                 @endcan
 
-                @can('view_employee')
+                @can('employee_list')
                     <li class="nav-item">
                         <a href="{{ route('employee.list') }}" class="nav-link">
                             <i class="nav-icon bi bi-people-fill"></i>
-                            <p>{{ __('Employee List') }}</p>
+                            <p>Employee List</p>
                         </a>
                     </li>
                 @endcan
 
-                @can('import_employee')
+                @can('employee_import')
                     <li class="nav-item">
                         <a href="{{ route('employee.import.show') }}" class="nav-link">
                             <i class="nav-icon bi bi-file-arrow-up"></i>
-                            <p>{{ __('Import Employees') }}</p>
+                            <p>Import Employees</p>
                         </a>
                     </li>
                 @endcan
 
-                @can('export_employee')
+                @can('employee_export')
                     <li class="nav-item">
                         <a href="{{ route('employee.export.show') }}" class="nav-link">
                             <i class="nav-icon bi bi-file-arrow-down"></i>
-                            <p>{{ __('Export Employees') }}</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('employee.cdd') }}" class="nav-link">
-                            <i class="nav-icon bi bi-file-earmark-text"></i>
-                            <p>{{ __('CDD Contracts') }}</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('employee.cdi') }}" class="nav-link">
-                            <i class="nav-icon bi bi-file-earmark-check"></i>
-                            <p>{{ __('CDI Contracts') }}</p>
+                            <p>Export Employees</p>
                         </a>
                     </li>
                 @endcan
-            @endif
 
-            {{-- Invoices --}}
-            <li class="nav-header">{{ __('Invoices') }}</li>
+                @can('employee_cdd')
+                    <li class="nav-item">
+                        <a href="{{ route('employee.cdd') }}" class="nav-link">
+                            <i class="nav-icon bi bi-file-earmark-text"></i>
+                            <p>CDD Contracts</p>
+                        </a>
+                    </li>
+                @endcan
 
-            @can('view_customer')
-                <li class="nav-item">
-                    <a href="{{ route('customer.index') }}" class="nav-link">
-                        <i class="nav-icon bi bi-receipt"></i>
-                        <p>{{ __('All Customers') }}</p>
-                    </a>
-                </li>
-            @endcan
+                @can('employee_cdi')
+                    <li class="nav-item">
+                        <a href="{{ route('employee.cdi') }}" class="nav-link">
+                            <i class="nav-icon bi bi-file-earmark-check"></i>
+                            <p>CDI Contracts</p>
+                        </a>
+                    </li>
+                @endcan
+            @endcanany
 
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon bi bi-plus-square"></i>
-                    <p>{{ __('All Statements') }}</p>
-                </a>
-            </li>
 
-            @can('create_customer')
-                <li class="nav-item">
-                    <a href="{{ route('customer.create') }}" class="nav-link">
-                        <i class="nav-icon bi bi-person-plus"></i>
-                        <p>{{ __('Create Customer') }}</p>
-                    </a>
-                </li>
-            @endcan
 
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon bi bi-file-plus"></i>
-                    <p>{{ __('Create Invoice') }}</p>
-                </a>
-            </li>
+            @canany(['customer_list','invoice_statement','customer_create'])
+                <li class="nav-header">Invoices</li>
 
-            <li class="nav-header">{{ __('Payrolls') }}</li>
+                @can('customer_list')
+                    <li class="nav-item">
+                        <a href="{{ route('customer.index') }}" class="nav-link">
+                            <i class="nav-icon bi bi-receipt"></i>
+                            <p>All Customers</p>
+                        </a>
+                    </li>
+                @endcan
 
-            <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon bi bi-currency-dollar"></i>
-                    <p>
-                        {{ __('Payroll') }}
-                        <i class="right bi bi-chevron-down"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview ms-3">
+                @can('invoice_statement')
+                    <li class="nav-item">
+                        <a href="{{ route('invoice.statement') }}" class="nav-link">
+                            <i class="nav-icon bi bi-plus-square"></i>
+                            <p>All Statements</p>
+                        </a>
+                    </li>
+                @endcan
+
+                @can('customer_create')
+                    <li class="nav-item">
+                        <a href="{{ route('customer.create') }}" class="nav-link">
+                            <i class="nav-icon bi bi-person-plus"></i>
+                            <p>Create Customer</p>
+                        </a>
+                    </li>
+                @endcan
+            @endcanany
+
+
+
+            @canany(['payroll_list','payroll_history','payroll_export_view'])
+                <li class="nav-header">Payrolls</li>
+
+                @can('payroll_list')
                     <li class="nav-item">
                         <a href="{{ route('payroll.index') }}" class="nav-link">
-                            <i class="bi bi-plus-circle nav-icon"></i>
-                            <p>{{ __('Create') }}</p>
+                            <i class="nav-icon bi bi-plus-circle"></i>
+                            <p>Create</p>
                         </a>
                     </li>
+                @endcan
+
+                @can('payroll_history')
                     <li class="nav-item">
                         <a href="{{ route('payroll.history') }}" class="nav-link">
-                            <i class="bi bi-clock-history nav-icon"></i>
-                            <p>{{ __('History') }}</p>
+                            <i class="nav-icon bi bi-clock-history"></i>
+                            <p>History</p>
                         </a>
                     </li>
+                @endcan
+
+                @can('payroll_export_view')
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="bi bi-file-earmark-text nav-icon"></i>
-                            <p>{{ __('Rapport') }}</p>
+                        <a href="{{ route('payroll.exportView') }}" class="nav-link">
+                            <i class="nav-icon bi bi-file-earmark-text"></i>
+                            <p>Report</p>
                         </a>
                     </li>
-                </ul>
-            </li>
+                @endcan
+            @endcanany
 
 
-            {{-- Configuration --}}
-            <li class="nav-header">{{ __('Configuration') }}</li>
+            {{-- ================= CONFIGURATION ================= --}}
+            @canany(['user_list','user_create','role_list','role_create'])
+                <li class="nav-header">Configuration</li>
 
+                @can('user_list')
+                    <li class="nav-item">
+                        <a href="{{ route('users.index') }}" class="nav-link">
+                            <i class="nav-icon bi bi-people"></i>
+                            <p>All Users</p>
+                        </a>
+                    </li>
+                @endcan
 
+                @can('user_create')
+                    <li class="nav-item">
+                        <a href="{{ route('users.create') }}" class="nav-link">
+                            <i class="nav-icon bi bi-person-plus"></i>
+                            <p>Create User</p>
+                        </a>
+                    </li>
+                @endcan
 
+                @can('role_list')
+                    <li class="nav-item">
+                        <a href="{{ route('roles.index') }}" class="nav-link">
+                            <i class="nav-icon bi bi-shield-lock"></i>
+                            <p>All Roles</p>
+                        </a>
+                    </li>
+                @endcan
 
-            <li class="nav-item">
-                <a href="{{ route('users.index') }}" class="nav-link">
-                    <i class="nav-icon bi bi-people"></i>
-                    <p>{{ __('All Users') }}</p>
-                </a>
-            </li>
-
-
-            <li class="nav-item">
-                <a href="{{ route('users.create') }}" class="nav-link">
-                    <i class="nav-icon bi bi-person-plus"></i>
-                    <p>{{ __('Create User') }}</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a href="{{ route('roles.index') }}" class="nav-link">
-                    <i class="nav-icon bi bi-shield-lock"></i>
-                    <p>{{ __('All Roles') }}</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a href="{{ route('roles.create') }}" class="nav-link">
-                    <i class="nav-icon bi bi-file-plus"></i>
-                    <p>{{ __('Create Role') }}</p>
-                </a>
-            </li>
+                @can('role_create')
+                    <li class="nav-item">
+                        <a href="{{ route('roles.create') }}" class="nav-link">
+                            <i class="nav-icon bi bi-file-plus"></i>
+                            <p>Create Role</p>
+                        </a>
+                    </li>
+                    <br>
+                    <br><br>
+                @endcan
+            @endcanany
 
         </ul>
     </nav>
 </div>
-

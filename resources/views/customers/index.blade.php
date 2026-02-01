@@ -6,19 +6,37 @@
 
     <div class="card mb-4 m-5">
 
-        <div class="card-header d-flex align-items-center">
-            <h3 class="card-title">Customers List</h3>
-            <div class="card-tools ms-auto">
-                <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse" title="Collapse"></button>
-                <button type="button" class="btn btn-tool" title="Add Customer"
-                        style="background:#FF6600; color:#fff; width:40px; height:40px;">
-                    <a href="{{ route('customer.create') }}" class="text-decoration-none"
-                       style="color:white; font-size:20px;">
-                        <i class="bi bi-plus-lg"></i>
+        <!-- Customers List Header -->
+        <div class="card-header d-flex align-items-center"
+             style="background-color: #FF6600; color: #fff; border-radius:0;">
+            <h3 class="card-title mb-0">Customers List</h3>
+
+            <nav aria-label="breadcrumb" class="ms-auto">
+                <ol class="breadcrumb mb-0 bg-transparent">
+
+                    @can('dashboard')
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('dashboard') }}" class="text-white">Home</a>
+                        </li>
+                    @endcan
+
+
+                    <li class="breadcrumb-item active text-white" aria-current="page">List</li>
+                </ol>
+            </nav>
+
+            @can('customer_create')
+                <div class="card-tools ms-3">
+                    <a href="{{ route('customer.create') }}"
+                       class="btn btn-tool"
+                       title="Add new customer"
+                       style="background:#fff; color:#FF6600; width:40px; height:40px; border-radius:4px; display:flex; align-items:center; justify-content:center;">
+                        <i class="bi bi-plus-lg" style="font-size:20px;"></i>
                     </a>
-                </button>
-            </div>
+                </div>
+            @endcan
         </div>
+
 
         <div class="card-body">
 
@@ -55,34 +73,37 @@
                             <td class="text-center">
                                 <div class="d-inline-flex gap-1">
 
+                                    @can('invoice_create')
+                                        <a href="{{ route('invoices.create', $customer->id) }}"
+                                           class="btn btn-sm btn-outline-primary"
+                                           title="Create Invoice">
+                                            <i class="bi bi-file-earmark-text"></i>
+                                        </a>
+                                    @endcan
 
-                                    <a href="{{ route('invoices.create', $customer->id) }}"
-                                       class="btn btn-sm btn-outline-primary"
-                                       title="Create Invoice">
-                                        <i class="bi bi-file-earmark-text"></i>
-                                    </a>
+                                    @can('customer_edit')
+                                        <a href="{{ route('customer.edit', $customer->id) }}"
+                                           class="btn btn-sm btn-outline-warning"
+                                           title="Edit Customer">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                    @endcan
 
-
-                                    <a href="{{ route('customer.edit', $customer->id) }}"
-                                       class="btn btn-sm btn-outline-warning"
-                                       title="Edit Customer">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-
-
-                                    <form action="{{ route('customer.destroy', $customer->id) }}" method="POST"
-                                          class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-sm btn-outline-danger"
-                                                onclick="return confirm('Delete this customer?')"
-                                                title="Delete Customer">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
+                                    @can('customer_delete')
+                                        <form action="{{ route('customer.destroy', $customer->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-sm btn-outline-danger"
+                                                    onclick="return confirm('Delete this customer?')"
+                                                    title="Delete Customer">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    @endcan
 
                                 </div>
                             </td>
+
 
                         </tr>
                     @endforeach

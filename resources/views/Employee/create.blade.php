@@ -32,12 +32,26 @@
             <h3 class="card-title mb-0">Add New Employee</h3>
             <nav aria-label="breadcrumb" class="ms-auto">
                 <ol class="breadcrumb mb-0 bg-transparent">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="text-white">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('employee.list') }}" class="text-white">Employee</a>
-                    </li>
+
+
+                    @can('dashboard')
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('dashboard') }}" class="text-white">Home</a>
+                        </li>
+                    @endcan
+
+
+                    @can('employee_list')
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('employee.list') }}" class="text-white">Employee</a>
+                        </li>
+                    @endcan
+
+
                     <li class="breadcrumb-item active text-white" aria-current="page">Create</li>
                 </ol>
             </nav>
+
         </div>
 
         <!-- Form -->
@@ -47,6 +61,8 @@
 
                 <!-- Tabs nav -->
                 <ul class="nav nav-tabs mb-4" id="employeeTab" role="tablist" style="border-radius:0;">
+
+
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="personal-tab" data-bs-toggle="tab"
                                 data-bs-target="#personal" type="button" role="tab"
@@ -54,48 +70,77 @@
                             <i class="bi bi-person-fill me-1"></i> Personal
                         </button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address"
-                                type="button" role="tab" style="color:#FF6600; font-weight:500; border-radius:0;">
-                            <i class="bi bi-geo-alt-fill me-1"></i> Address
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="photo-tab" data-bs-toggle="tab" data-bs-target="#photo"
-                                type="button" role="tab" style="color:#FF6600; font-weight:500; border-radius:0;">
-                            <i class="bi bi-camera-fill me-1"></i> Photo
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="company-tab" data-bs-toggle="tab" data-bs-target="#company"
-                                type="button" role="tab" style="color:#ff6600; font-weight:500;">
-                            <i class="bi bi-briefcase-fill me-1"></i> Company
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="education-tab" data-bs-toggle="tab" data-bs-target="#education"
-                                type="button" role="tab" style="color:#ff6600; font-weight:500;">
-                            <i class="bi bi-book-fill me-1"></i> children
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="dependants-tab" data-bs-toggle="tab" data-bs-target="#dependants"
-                                type="button" role="tab" style="color:#ff6600; font-weight:500;">
-                            <i class="bi bi-people-fill me-1"></i> Dependants
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="emergency-tab" data-bs-toggle="tab" data-bs-target="#emergency"
-                                type="button" role="tab" style="color:#ff6600; font-weight:500;">
-                            <i class="bi bi-telephone-fill me-1"></i> Emergency
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="salary-tab" data-bs-toggle="tab" data-bs-target="#salary"
-                                type="button" role="tab" style="color:#ff6600; font-weight:500;">
-                            <i class="bi bi-cash-stack me-1"></i> Salary
-                        </button>
-                    </li>
+
+
+                    @can('employee_address')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address"
+                                    type="button" role="tab" style="color:#FF6600; font-weight:500; border-radius:0;">
+                                <i class="bi bi-geo-alt-fill me-1"></i> Address
+                            </button>
+                        </li>
+                    @endcan
+
+
+                    @can('employee_photo')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="photo-tab" data-bs-toggle="tab" data-bs-target="#photo"
+                                    type="button" role="tab" style="color:#FF6600; font-weight:500; border-radius:0;">
+                                <i class="bi bi-camera-fill me-1"></i> Photo
+                            </button>
+                        </li>
+                    @endcan
+
+
+                    @can('employee_company')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="company-tab" data-bs-toggle="tab" data-bs-target="#company"
+                                    type="button" role="tab" style="color:#ff6600; font-weight:500;">
+                                <i class="bi bi-briefcase-fill me-1"></i> Company
+                            </button>
+                        </li>
+                    @endcan
+
+
+                    @can('employee_children')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="education-tab" data-bs-toggle="tab" data-bs-target="#education"
+                                    type="button" role="tab" style="color:#ff6600; font-weight:500;">
+                                <i class="bi bi-book-fill me-1"></i> Children
+                            </button>
+                        </li>
+                    @endcan
+
+
+                    @can('employee_dependants')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="dependants-tab" data-bs-toggle="tab" data-bs-target="#dependants"
+                                    type="button" role="tab" style="color:#ff6600; font-weight:500;">
+                                <i class="bi bi-people-fill me-1"></i> Dependants
+                            </button>
+                        </li>
+                    @endcan
+
+
+                    @can('employee_emergency')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="emergency-tab" data-bs-toggle="tab" data-bs-target="#emergency"
+                                    type="button" role="tab" style="color:#ff6600; font-weight:500;">
+                                <i class="bi bi-telephone-fill me-1"></i> Emergency
+                            </button>
+                        </li>
+                    @endcan
+
+
+                    @can('employee_salary')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="salary-tab" data-bs-toggle="tab" data-bs-target="#salary"
+                                    type="button" role="tab" style="color:#ff6600; font-weight:500;">
+                                <i class="bi bi-cash-stack me-1"></i> Salary
+                            </button>
+                        </li>
+                    @endcan
+
                 </ul>
 
 
