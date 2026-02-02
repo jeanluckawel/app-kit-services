@@ -62,22 +62,6 @@
                         </div>
                     </div>
 
-                    <!-- ROLE -->
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <label class="fw-bold">Role</label>
-                            <select name="role" class="form-select" style="border-radius:0;">
-                                <option value="">-- Select Role --</option>
-                                @foreach($roles as $role)
-                                    <option value="{{ $role->id }}"
-                                        {{ (old('role', $user->id) == $role->id) ? 'selected' : '' }}>
-                                        {{ $role->name }}
-                                    </option>)
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
                     <div class="text-end">
                         <button type="submit"
                                 class="btn text-white"

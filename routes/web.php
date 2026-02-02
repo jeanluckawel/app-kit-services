@@ -4,8 +4,10 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeExport;
 use App\Http\Controllers\EmployeeImportController;
+use App\Http\Controllers\ExpenseTypeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\PerceptionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
@@ -220,6 +222,32 @@ Route::middleware(['auth','verified'])->group(function () {
 
     Route::get('/payroll/view', [PayrollController::class, 'exportview'])
         ->name('payroll.exportView')->middleware('can:payroll_export_view');
+
+
+
+
+    Route::get('/expense-types', [ExpenseTypeController::class,'index'])->name('expense-types.index');
+    Route::get('/expense-types/create', [ExpenseTypeController::class,'create'])->name('expense-types.create');
+    Route::post('/expense-types/store', [ExpenseTypeController::class,'store'])->name('expense-types.store');
+    Route::get('/expense-types/{id}/edit', [ExpenseTypeController::class,'edit'])->name('expense-types.edit');
+    Route::put('/expense-types/{id}', [ExpenseTypeController::class,'update'])->name('expense-types.update');
+    Route::delete('/expense-types/{id}', [ExpenseTypeController::class,'destroy'])->name('expense-types.destroy');
+
+// AJAX search
+    Route::get('/expense-types/search', [ExpenseTypeController::class,'search'])->name('expense-types.search');
+
+
+    Route::prefix('perceptions')->group(function() {
+
+        Route::get('/', [PerceptionController::class, 'index'])->name('perceptions.index')->middleware('can:perception_list');
+        Route::get('/create', [PerceptionController::class, 'create'])->name('perceptions.create')->middleware('can:perception_create');
+        Route::post('/store', [PerceptionController::class, 'store'])->name('perceptions.store')->middleware('can:perception_create');
+        Route::get('/history', [PerceptionController::class, 'history'])->name('perceptions.history')->middleware('can:perception_history');
+        Route::get('/search', [PerceptionController::class, 'search'])->name('perceptions.search')->middleware('can:perception_list');
+        Route::delete('/{perception}', [PerceptionController::class, 'destroy'])->name('perceptions.destroy')->middleware('can:perception_delete');
+    });
+
+
 });
 
 require __DIR__.'/auth.php';

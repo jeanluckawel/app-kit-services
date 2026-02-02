@@ -83,6 +83,16 @@ class PermissionSeeder extends Seeder
             'payroll_history',
             'payroll_export',
             'payroll_export_view',
+// expense
+            'expense_type',
+            'expense_create',
+            'expense_list',
+            'expense_history',
+
+//  Perception
+            'perception_create',
+            'perception_history',
+            'perception_list',
 
 // Language
             'language_switch',

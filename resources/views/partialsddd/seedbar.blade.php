@@ -7,18 +7,18 @@
             data-accordion="false"
             id="navigation">
 
-
+            {{-- ================= DASHBOARD ================= --}}
             @can('dashboard')
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link">
-                        <i class="nav-icon bi bi-speedometer"></i>
+                        <i class="nav-icon bi bi-speedometer text-primary"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
             @endcan
 
 
-
+            {{-- ================= EMPLOYEES ================= --}}
             @canany([
                 'employee_create',
                 'employee_list',
@@ -32,7 +32,7 @@
                 @can('employee_create')
                     <li class="nav-item">
                         <a href="{{ route('employee.create') }}" class="nav-link">
-                            <i class="nav-icon bi bi-person-plus-fill"></i>
+                            <i class="nav-icon bi bi-person-plus-fill text-success"></i>
                             <p>Add Employee</p>
                         </a>
                     </li>
@@ -41,7 +41,7 @@
                 @can('employee_list')
                     <li class="nav-item">
                         <a href="{{ route('employee.list') }}" class="nav-link">
-                            <i class="nav-icon bi bi-people-fill"></i>
+                            <i class="nav-icon bi bi-people-fill text-success"></i>
                             <p>Employee List</p>
                         </a>
                     </li>
@@ -50,7 +50,7 @@
                 @can('employee_import')
                     <li class="nav-item">
                         <a href="{{ route('employee.import.show') }}" class="nav-link">
-                            <i class="nav-icon bi bi-file-arrow-up"></i>
+                            <i class="nav-icon bi bi-file-arrow-up text-success"></i>
                             <p>Import Employees</p>
                         </a>
                     </li>
@@ -59,7 +59,7 @@
                 @can('employee_export')
                     <li class="nav-item">
                         <a href="{{ route('employee.export.show') }}" class="nav-link">
-                            <i class="nav-icon bi bi-file-arrow-down"></i>
+                            <i class="nav-icon bi bi-file-arrow-down text-success"></i>
                             <p>Export Employees</p>
                         </a>
                     </li>
@@ -68,7 +68,7 @@
                 @can('employee_cdd')
                     <li class="nav-item">
                         <a href="{{ route('employee.cdd') }}" class="nav-link">
-                            <i class="nav-icon bi bi-file-earmark-text"></i>
+                            <i class="nav-icon bi bi-file-earmark-text text-success"></i>
                             <p>CDD Contracts</p>
                         </a>
                     </li>
@@ -77,7 +77,7 @@
                 @can('employee_cdi')
                     <li class="nav-item">
                         <a href="{{ route('employee.cdi') }}" class="nav-link">
-                            <i class="nav-icon bi bi-file-earmark-check"></i>
+                            <i class="nav-icon bi bi-file-earmark-check text-success"></i>
                             <p>CDI Contracts</p>
                         </a>
                     </li>
@@ -85,14 +85,14 @@
             @endcanany
 
 
-
+            {{-- ================= INVOICES ================= --}}
             @canany(['customer_list','invoice_statement','customer_create'])
                 <li class="nav-header">Invoices</li>
 
                 @can('customer_list')
                     <li class="nav-item">
                         <a href="{{ route('customer.index') }}" class="nav-link">
-                            <i class="nav-icon bi bi-receipt"></i>
+                            <i class="nav-icon bi bi-receipt text-info"></i>
                             <p>All Customers</p>
                         </a>
                     </li>
@@ -101,7 +101,7 @@
                 @can('invoice_statement')
                     <li class="nav-item">
                         <a href="{{ route('invoice.statement') }}" class="nav-link">
-                            <i class="nav-icon bi bi-plus-square"></i>
+                            <i class="nav-icon bi bi-plus-square text-info"></i>
                             <p>All Statements</p>
                         </a>
                     </li>
@@ -110,7 +110,7 @@
                 @can('customer_create')
                     <li class="nav-item">
                         <a href="{{ route('customer.create') }}" class="nav-link">
-                            <i class="nav-icon bi bi-person-plus"></i>
+                            <i class="nav-icon bi bi-person-plus text-info"></i>
                             <p>Create Customer</p>
                         </a>
                     </li>
@@ -118,14 +118,14 @@
             @endcanany
 
 
-
+            {{-- ================= PAYROLLS ================= --}}
             @canany(['payroll_list','payroll_history','payroll_export_view'])
                 <li class="nav-header">Payrolls</li>
 
                 @can('payroll_list')
                     <li class="nav-item">
                         <a href="{{ route('payroll.index') }}" class="nav-link">
-                            <i class="nav-icon bi bi-plus-circle"></i>
+                            <i class="nav-icon bi bi-plus-circle text-warning"></i>
                             <p>Create</p>
                         </a>
                     </li>
@@ -134,7 +134,7 @@
                 @can('payroll_history')
                     <li class="nav-item">
                         <a href="{{ route('payroll.history') }}" class="nav-link">
-                            <i class="nav-icon bi bi-clock-history"></i>
+                            <i class="nav-icon bi bi-clock-history text-warning"></i>
                             <p>History</p>
                         </a>
                     </li>
@@ -143,7 +143,7 @@
                 @can('payroll_export_view')
                     <li class="nav-item">
                         <a href="{{ route('payroll.exportView') }}" class="nav-link">
-                            <i class="nav-icon bi bi-file-earmark-text"></i>
+                            <i class="nav-icon bi bi-file-earmark-text text-warning"></i>
                             <p>Report</p>
                         </a>
                     </li>
@@ -151,14 +151,105 @@
             @endcanany
 
 
-            {{-- ================= CONFIGURATION ================= --}}
+
+            @canany([
+           'expense_type',
+           'expense_create',
+           'expense_list',
+           'expense_history',
+       ])
+                <li class="nav-header">Expenses</li>
+
+
+                @can('expense_type')
+                    <li class="nav-item">
+                        <a href="{{ route('expense-types.index') }}" class="nav-link">
+                            <i class="nav-icon bi bi-tags text-danger"></i>
+                            <p>Expense Types</p>
+                        </a>
+                    </li>
+                @endcan
+
+
+                @can('expense_create')
+                    <li class="nav-item">
+                        <a href="{{ route('expense-types.create') }}" class="nav-link">
+                            <i class="nav-icon bi bi-plus-circle text-danger"></i>
+                            <p>Create Expense</p>
+                        </a>
+                    </li>
+                @endcan
+
+
+                @can('expense_list')
+                    <li class="nav-item">
+                        <a href="{{ route('expense-types.index') }}" class="nav-link">
+                            <i class="nav-icon bi bi-list-ul text-danger"></i>
+                            <p>New Expense </p>
+                        </a>
+                    </li>
+                @endcan
+
+
+                @can('expense_history')
+                    <li class="nav-item">
+                        <a class="nav-link">
+                            <i class="nav-icon bi bi-clock-history text-danger"></i>
+                            <p>Expense History</p>
+                        </a>
+                    </li>
+                @endcan
+            @endcanany
+
+                @canany([
+                   'perception_create',
+                   'perception_history',
+                   'perception_list'
+                ])
+
+                <li class="nav-header">Perceptions</li>
+
+
+
+                @can('perception_create')
+                    <li class="nav-item">
+                        <a href="{{ route('perceptions.create') }}"  class="nav-link">
+                            <i class="nav-icon bi bi-cash-coin" style="color: orangered"></i>
+                            <p>Add Perception</p>
+                        </a>
+                    </li>
+                @endcan
+
+
+                @can('perception_list')
+                    <li class="nav-item">
+                        <a href="{{ route('perceptions.index') }}" class="nav-link">
+                            <i class="nav-icon bi bi-card-list" style="color: orangered"></i>
+                            <p>Perception List</p>
+                        </a>
+                    </li>
+                @endcan
+
+
+                @can('perception_history')
+                    <li {{ route('perceptions.history') }} class="nav-item">
+                        <a class="nav-link">
+                            <i class="nav-icon bi bi-clock-history" style="color: orangered"></i>
+                            <p>Perception History</p>
+                        </a>
+                    </li>
+                @endcan
+            @endcanany
+
+
+
             @canany(['user_list','user_create','role_list','role_create'])
                 <li class="nav-header">Configuration</li>
 
                 @can('user_list')
                     <li class="nav-item">
                         <a href="{{ route('users.index') }}" class="nav-link">
-                            <i class="nav-icon bi bi-people"></i>
+                            <i class="nav-icon bi bi-people text-secondary"></i>
                             <p>All Users</p>
                         </a>
                     </li>
@@ -167,7 +258,7 @@
                 @can('user_create')
                     <li class="nav-item">
                         <a href="{{ route('users.create') }}" class="nav-link">
-                            <i class="nav-icon bi bi-person-plus"></i>
+                            <i class="nav-icon bi bi-person-plus text-secondary"></i>
                             <p>Create User</p>
                         </a>
                     </li>
@@ -176,7 +267,7 @@
                 @can('role_list')
                     <li class="nav-item">
                         <a href="{{ route('roles.index') }}" class="nav-link">
-                            <i class="nav-icon bi bi-shield-lock"></i>
+                            <i class="nav-icon bi bi-shield-lock text-secondary"></i>
                             <p>All Roles</p>
                         </a>
                     </li>
@@ -185,12 +276,11 @@
                 @can('role_create')
                     <li class="nav-item">
                         <a href="{{ route('roles.create') }}" class="nav-link">
-                            <i class="nav-icon bi bi-file-plus"></i>
+                            <i class="nav-icon bi bi-file-plus text-secondary"></i>
                             <p>Create Role</p>
                         </a>
                     </li>
-                    <br>
-                    <br><br>
+                    <br><br><br>
                 @endcan
             @endcanany
 
