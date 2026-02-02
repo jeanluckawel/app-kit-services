@@ -6,19 +6,50 @@
     <div class="d-flex mt-2 justify-content-center align-items-start" style=" background-color: #f9f9f9;">
         <div class="card shadow-sm border-0" style="width: 100%; max-width: 90%; border-radius: 0;">
 
-            <div class="card-header bg-orange-600 text-white " style="border-radius: 0;">
+            <div class="card-header d-flex align-items-center"
+                 style="background-color: #FF6600; color: #fff; border-radius:0;">
                 <h5 class="mb-0 fw-bold" style="font-size: 1rem;">Create a New Role</h5>
+
+                <nav aria-label="breadcrumb" class="ms-auto">
+                    <ol class="breadcrumb mb-0 bg-transparent">
+                        @can('dashboard')
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('dashboard') }}" class="text-white">Home</a>
+                            </li>
+                        @endcan
+
+                        @can('role_list')
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('roles.index') }}" class="text-white">Roles</a>
+                            </li>
+                        @endcan
+
+                        <li class="breadcrumb-item active text-white" aria-current="page">Create</li>
+                    </ol>
+                </nav>
             </div>
+
 
             <div class="card-body p-2">
                 <form action="{{ route('roles.store') }}" method="POST">
                     @csrf
 
 
-                    <div class="mb-2">
-                        <label for="role_name" class="form-label fw-semibold small text-secondary">Role Name</label>
-                        <input type="text" id="role_name" name="name" class="form-control form-control-sm border-1" placeholder="Enter role name" required style="font-size: 0.85rem; padding: 4px 8px;">
+                    <div class="mb-3" style="max-width: 400px;">
+                        <label for="role_name" class="form-label fw-semibold small text-secondary">
+                            Role Name <span class="text-danger">*</span>
+                        </label>
+                        <input type="text"
+                               id="role_name"
+                               name="name"
+                               class="form-control form-control-sm"
+                               placeholder="Enter role name"
+                               required
+                               autocomplete="off"
+                               style="font-size: 0.85rem; border-radius:0;">
                     </div>
+
+
 
 
                     <div class="mb-2">

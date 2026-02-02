@@ -7,14 +7,22 @@
     <div class="card mb-4 m-5">
 
         <!-- Header -->
-        <div class="card-header">
-            <h3 class="card-title">Payroll List</h3>
-            <div class="card-tools">
-                <a href="#" class="btn btn-tool" style="background:#FF6600; color:#fff; width:40px; height:40px;">
-                    <i class="bi bi-plus-lg" style="font-size: 20px;"></i>
-                </a>
-            </div>
+        <div class="card-header d-flex align-items-center"
+             style="background-color: #FF6600; color: #fff; border-radius:0;">
+            <h3 class="card-title mb-0">Payroll List</h3>
+
+            <nav aria-label="breadcrumb" class="ms-auto d-flex align-items-center">
+                <ol class="breadcrumb mb-0 bg-transparent me-3">
+                    @can('dashboard')
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('dashboard') }}" class="text-white">Home</a>
+                        </li>
+                    @endcan
+                    <li class="breadcrumb-item active text-white" aria-current="page">Payrolls</li>
+                </ol>
+            </nav>
         </div>
+
 
         <!-- Body -->
         <div class="card-body">
@@ -92,18 +100,28 @@
                                     <span>{{ $type }}</span>
                                 @endif
                             </td>
-
                             <td class="text-center">
                                 <div class="d-inline-flex gap-1">
-                                    <a href="{{ route('employee.view', $employee->id) }}" class="btn btn-sm btn-outline-primary" title="View">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
 
-                                    <a href="{{ route('payroll.create', $employee->id) }}" class="btn btn-sm btn-outline-success" title="Payroll">
-                                        <i class="bi bi-cash-stack"></i>
-                                    </a>
+                                    @can('employee_view')
+                                        <a href="{{ route('employee.view', $employee->id) }}"
+                                           class="btn btn-sm btn-outline-primary"
+                                           title="View">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    @endcan
+
+                                    @can('payroll_create')
+                                        <a href="{{ route('payroll.create', $employee->id) }}"
+                                           class="btn btn-sm btn-outline-success"
+                                           title="Payroll">
+                                            <i class="bi bi-cash-stack"></i>
+                                        </a>
+                                    @endcan
+
                                 </div>
                             </td>
+
 
                         </tr>
                     @endforeach

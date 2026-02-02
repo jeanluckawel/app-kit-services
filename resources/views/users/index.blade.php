@@ -6,15 +6,40 @@
 
     <div class="card mb-4 m-5">
 
-        <div class="card-header">
-            <h3 class="card-title">Users List</h3>
-            <div class="card-tools">
-                <a href="{{ route('users.create') }}" class="btn btn-sm text-white"
-                   style="background:#FF6600;">
-                    <i class="bi bi-plus-lg"></i> Add New User
-                </a>
+        <div class="card-header d-flex flex-column flex-md-row align-items-start align-items-md-center"
+             style="background-color: #FF6600; color: #fff; border-radius:0;">
+
+
+            <h3 class="card-title mb-2 mb-md-0">Users List</h3>
+
+
+            <div class="ms-auto d-flex align-items-center">
+
+
+                <nav aria-label="breadcrumb" class="me-3">
+                    <ol class="breadcrumb mb-0 bg-transparent">
+                        @can('dashboard')
+                            <li class="breadcrumb-item">
+                                <a href="{{ route('dashboard') }}" class="text-white">Home</a>
+                            </li>
+                        @endcan
+                        <li class="breadcrumb-item active text-white" aria-current="page">Users</li>
+                    </ol>
+                </nav>
+
+
+                @can('user_create')
+                    <a href="{{ route('users.create') }}"
+                       class="btn btn-tool"
+                       style="background:#fff; color:#FF6600; width:40px; height:40px;"
+                       title="Add New User">
+                        <i class="bi bi-plus-lg" style="font-size: 20px;"></i>
+                    </a>
+                @endcan
+
             </div>
         </div>
+
 
         <div class="card-body">
 

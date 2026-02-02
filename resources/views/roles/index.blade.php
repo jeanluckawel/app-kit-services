@@ -6,9 +6,21 @@
     <div class="d-flex justify-content-center mt-4 mb-4">
         <div class="card shadow-sm border-0" style="width: 95%; max-width: 1300px; border-radius: 0;">
 
-
-            <div class="card-header bg-orange-600 text-white" style="border-radius: 0;">
+            <div class="card-header d-flex align-items-center"
+                 style="background-color:#FF6600; color:#fff; border-radius:0;">
                 <h5 class="mb-0 fw-bold">Users, Roles & Permissions</h5>
+
+                <div class="ms-auto">
+                    @can('role_create')
+                        <a href="{{ route('roles.create') }}"
+                           class="btn btn-sm text-white"
+                           style="background:#fff; color:black;">
+                            <i class="bi bi-plus-lg"></i>
+                            <span style="color: black"> Add Role</span>
+
+                        </a>
+                    @endcan
+                </div>
             </div>
 
 
@@ -63,6 +75,9 @@
                             </td>
 
 
+                            @can('role_edit')
+
+
                             <td class="text-center">
 
                                 <a href="{{ route('users.editPermissions', $user->id) }}"
@@ -72,6 +87,7 @@
                                 </a>
 
                             </td>
+                                @endcan
 
 
                         </tr>

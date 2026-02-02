@@ -15,7 +15,10 @@
             <nav aria-label="breadcrumb" class="ms-auto">
                 <ol class="breadcrumb mb-0 bg-transparent">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="text-white">Home</a></li>
-                    <li class="breadcrumb-item active text-white" aria-current="page">Export</li>
+                    @can('dashboard')
+                        <li class="breadcrumb-item active text-white" aria-current="page">Export</li>
+
+                    @endcan
                 </ol>
             </nav>
         </div>

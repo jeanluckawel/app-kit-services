@@ -7,17 +7,23 @@
     <div class="card mb-4 m-5">
 
         <!-- HEADER -->
-        <div class="card-header">
-            <h3 class="card-title">Payroll History</h3>
+        <div class="card-header d-flex align-items-center"
+             style="background-color: #FF6600; color: #fff; border-radius:0;">
+            <h3 class="card-title mb-0">Payroll History</h3>
 
-            <div class="card-tools">
-                <a href="{{ route('payroll.index') }}"
-                   class="btn btn-tool"
-                   style="background:#FF6600;color:#fff;width:40px;height:40px;">
-                    <i class="bi bi-arrow-left"></i>
-                </a>
-            </div>
+            <nav aria-label="breadcrumb" class="ms-auto d-flex align-items-center">
+                <ol class="breadcrumb mb-0 bg-transparent me-3">
+                    @can('dashboard')
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('dashboard') }}" class="text-white">Home</a>
+                        </li>
+                    @endcan
+                    <li class="breadcrumb-item active text-white" aria-current="page">History</li>
+                </ol>
+            </nav>
         </div>
+
+
 
         <!-- BODY -->
         <div class="card-body">
@@ -83,7 +89,6 @@
                         <th>Basic USD</th>
                         <th>Net USD</th>
                         <th>Reference</th>
-                        <th>Status</th>
                         <th class="text-center">Action</th>
                     </tr>
                     </thead>
@@ -114,19 +119,18 @@
 
                             <td>{{ $payroll->reference }}</td>
 
-                            <td>
-<span class="badge {{ $payroll->status=='paid' ? 'bg-success' : 'bg-danger' }}">
-{{ ucfirst($payroll->status) }}
-</span>
-                            </td>
+
 
                             <td class="text-center">
-                                <a href="{{ route('payroll.show', [$payroll->employee_id, $payroll->reference]) }}"
-                                   class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-
+                                @can('payroll_view')
+                                    <a href="{{ route('payroll.show', [$payroll->employee_id, $payroll->reference]) }}"
+                                       class="btn btn-sm btn-outline-primary"
+                                       title="View Payroll">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                @endcan
                             </td>
+
 
 
 

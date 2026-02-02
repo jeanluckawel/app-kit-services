@@ -6,12 +6,30 @@
     <div class="card mb-4 m-5">
 
         <!-- Header -->
-        <div
-            class="card-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
-            <h3 class="card-title mb-3 mb-md-0">Create Payroll
-                for {{ $employee->first_name }} {{ $employee->last_name }}</h3>
-            <a href="{{ route('payroll.index') }}" class="btn btn-outline-secondary btn-sm">Back to Employee List</a>
+        <div class="card-header d-flex align-items-center"
+             style="background-color: #FF6600; color: #fff; border-radius:0;">
+            <h3 class="card-title mb-0">
+                Create Payroll for {{ $employee->first_name }} {{ $employee->last_name }}
+            </h3>
+            <nav aria-label="breadcrumb" class="ms-auto">
+                <ol class="breadcrumb mb-0 bg-transparent">
+                    @can('dashboard')
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('dashboard') }}" class="text-white">Home</a>
+                        </li>
+                    @endcan
+
+                    @can('payroll_index')
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('payroll.index') }}" class="text-white">Payrolls</a>
+                        </li>
+                    @endcan
+
+                    <li class="breadcrumb-item active text-white" aria-current="page">Create</li>
+                </ol>
+            </nav>
         </div>
+
 
         <!-- Employee Info Table -->
         <div class="card-body mb-4">

@@ -85,7 +85,7 @@
                                 <input type="text" name="ville" class="form-control"
                                        placeholder="City"
                                        style="border-radius:0;"
-                                       autocomplete="off">
+                                       autocomplete="new-off">
                             </div>
 
                             <div class="col-md-4">
@@ -93,7 +93,7 @@
                                 <input type="text" name="commune" class="form-control"
                                        placeholder="Commune"
                                        style="border-radius:0;"
-                                       autocomplete="off">
+                                       autocomplete="new-c-off">
                             </div>
                         </div>
 
@@ -119,7 +119,7 @@
                                 <input type="text" name="numero" class="form-control"
                                        placeholder="Number"
                                        style="border-radius:0;"
-                                       autocomplete="off">
+                                       autocomplete="new-n-off">
                             </div>
                         </div>
 
@@ -132,7 +132,7 @@
                                 <input type="text" name="telephone" class="form-control"
                                        placeholder="Phone"
                                        style="border-radius:0;"
-                                       autocomplete="off">
+                                       autocomplete="new-p-off">
                             </div>
 
                             <div class="col-md-6">
@@ -140,7 +140,7 @@
                                 <input type="email" name="email" class="form-control"
                                        placeholder="Email"
                                        style="border-radius:0;"
-                                       autocomplete="off">
+                                       autocomplete="new-m-off">
                             </div>
                         </div>
 

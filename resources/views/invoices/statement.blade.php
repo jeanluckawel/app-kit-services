@@ -8,7 +8,7 @@
         <!-- Invoice Statement Header -->
         <div class="card-header d-flex align-items-center"
              style="background-color: #FF6600; color: #fff; border-radius:0;">
-            <h3 class="card-title mb-0">Invoice Statement</h3>
+            <h3 class="card-title mb-0">Statement</h3>
 
             <nav aria-label="breadcrumb" class="ms-auto">
                 <ol class="breadcrumb mb-0 bg-transparent">
@@ -91,12 +91,15 @@
                             <td>{{ $inv->po ?? '' }}</td>
                             <td>{{ number_format($inv->total_amount ?? 0,2) }}</td>
                             <td class="text-center">
-                                <a href="{{ route('invoices.showByNumber', $inv->numero_invoice) }}"
-                                   class="btn btn-sm btn-outline-primary"
-                                   title="View Invoice">
-                                    <i class="bi bi-eye"></i>
-                                </a>
+                                @can('invoice_view')
+                                    <a href="{{ route('invoices.showByNumber', $inv->numero_invoice) }}"
+                                       class="btn btn-sm btn-outline-primary"
+                                       title="View Invoice">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                @endcan
                             </td>
+
                         </tr>
 
                     @empty

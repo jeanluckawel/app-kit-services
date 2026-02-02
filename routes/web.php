@@ -8,6 +8,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -17,169 +18,208 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'can:dashboard'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+// Profile
+Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-
-//
-
-
-
-
-// customers
-
-
+// Employees
 Route::middleware(['auth','verified'])->group(function () {
+    Route::get('/', [\App\Http\Controllers\DashboardController::class,'index'])->name('dashboard');
 
+    Route::get('employee/create', [EmployeeController::class,'create'])
+        ->name('employee.create')->middleware('can:employee_create');
 
-    Route::get('/',[\App\Http\Controllers\DashboardController::class,'index'])->name('dashboard');
+    Route::post('employee/store', [EmployeeController::class,'store'])
+        ->name('employee.store')->middleware('can:employee_store');
 
+    Route::get('employee/list', [EmployeeController::class,'list'])
+        ->name('employee.list')->middleware('can:employee_list');
 
+    Route::get('/employees/{employee}/edit', [EmployeeController::class, 'edit'])
+        ->name('employee.edit')->middleware('can:employee_edit');
 
-    Route::get('employee/create',[\App\Http\Controllers\EmployeeController::class,'create'])->name('employee.create');
-    Route::post('employee/store',[\App\Http\Controllers\EmployeeController::class,'store'])->name('employee.store');
-    Route::get('employee/list',[\App\Http\Controllers\EmployeeController::class,'list'])->name('employee.list');
-    Route::get('/employees/{employee}/edit', [EmployeeController::class, 'edit'])->name('employee.edit');
-    Route::put('/employees/{employee}', [EmployeeController::class, 'update'])->name('employee.update');
-    Route::patch('/employees/{employee}/disable', [EmployeeController::class, 'disable'])->name('employee.disable');
-    Route::get('/employees/{employee}/view', [EmployeeController::class, 'show'])->name('employee.view');
+    Route::put('/employees/{employee}', [EmployeeController::class, 'update'])
+        ->name('employee.update')->middleware('can:employee_edit');
 
-    Route::get('/employee/import', [EmployeeImportController::class, 'show'])->name('employee.import.show');
-    Route::post('/employee/import', [EmployeeImportController::class, 'store'])->name('employee.import.store');
+    Route::patch('/employees/{employee}/disable', [EmployeeController::class, 'disable'])
+        ->name('employee.disable')->middleware('can:employee_disable');
 
-// export
+    Route::get('/employees/{employee}/view', [EmployeeController::class, 'show'])
+        ->name('employee.view')->middleware('can:employee_view');
 
-    Route::get('/employee/export', [\App\Http\Controllers\EmployeeExport::class, 'show'])->name('employee.export.show');
-    Route::get('/employee/export/download', [EmployeeExport::class, 'export'])->name('employee.export');
+    Route::get('/employee/import', [EmployeeImportController::class, 'show'])
+        ->name('employee.import.show')->middleware('can:employee_import');
 
-// search
+    Route::post('/employee/import', [EmployeeImportController::class, 'store'])
+        ->name('employee.import.store')->middleware('can:employee_import');
+
+    Route::get('/employee/export', [EmployeeExport::class, 'show'])
+        ->name('employee.export.show')->middleware('can:employee_export');
+
+    Route::get('/employee/export/download', [EmployeeExport::class, 'export'])
+        ->name('employee.export')->middleware('can:employee_export');
+
     Route::get('/employees/search', [EmployeeController::class,'search'])
-        ->name('employee.search');
-// cdd and cdi
-    Route::get('/employees/cdd', [EmployeeController::class,'cdd'])->name('employee.cdd');
+        ->name('employee.search')->middleware('can:employee_search');
 
-    Route::get('/employees/cdi', [EmployeeController::class,'cdi'])->name('employee.cdi');
+    Route::get('/employees/cdd', [EmployeeController::class,'cdd'])
+        ->name('employee.cdd')->middleware('can:employee_cdd');
+
+    Route::get('/employees/cdi', [EmployeeController::class,'cdi'])
+        ->name('employee.cdi')->middleware('can:employee_cdi');
 
     Route::get('/employees/{id}/fin-contrat', [EmployeeController::class, 'finContrat'])
-        ->name('employee.fin.contract');
+        ->name('employee.fin.contract')->middleware('can:employee_contract_end');
 
     Route::get('/employees/{id}/certificat', [EmployeeController::class, 'certificat'])
-        ->name('employee.certificat');
-
-
+        ->name('employee.certificat')->middleware('can:employee_certificate');
 });
 
-Route::middleware(['auth','verified'])->group(function () {
-    Route::prefix('customers')->group(function () {
-        Route::get('/', [CustomerController::class, 'index'])->name('customer.index');
-        Route::get('/create', [CustomerController::class, 'create'])->name('customer.create');
-        Route::post('/store', [CustomerController::class, 'store'])->name('customer.store');
-        Route::get('/{customer}/edit', [CustomerController::class, 'edit'])->name('customer.edit');
-        Route::put('/{customer}', [CustomerController::class, 'update'])->name('customer.update');
-        Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
+// Customers
+Route::middleware(['auth','verified'])->prefix('customers')->group(function () {
+    Route::get('/', [CustomerController::class, 'index'])
+        ->name('customer.index')->middleware('can:customer_list');
 
-    });
+    Route::get('/create', [CustomerController::class, 'create'])
+        ->name('customer.create')->middleware('can:customer_create');
+
+    Route::post('/store', [CustomerController::class, 'store'])
+        ->name('customer.store')->middleware('can:customer_store');
+
+    Route::get('/{customer}/edit', [CustomerController::class, 'edit'])
+        ->name('customer.edit')->middleware('can:customer_edit');
+
+    Route::put('/{customer}', [CustomerController::class, 'update'])
+        ->name('customer.update')->middleware('can:customer_edit');
+
+    Route::delete('/{customer}', [CustomerController::class, 'destroy'])
+        ->name('customer.destroy')->middleware('can:customer_delete');
+
+    Route::get('/search', [CustomerController::class, 'search'])
+        ->name('customer.search')->middleware('can:customer_search');
 });
 
+// Invoices
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('invoices/statement', [InvoiceController::class, 'statement'])
-        ->name('invoice.statement');
+        ->name('invoice.statement')->middleware('can:invoice_statement');
 
-    Route::get('/customers/{customer}/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
-    Route::post('/customers/{customer}/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
-    Route::get('/customers/search', [CustomerController::class, 'search'])->name('customer.search');
-    Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
-    Route::get('/invoices/{invoice}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
-    Route::put('/invoices/{invoice}', [InvoiceController::class, 'update'])->name('invoices.update');
-    Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+    Route::get('/customers/{customer}/invoices/create', [InvoiceController::class, 'create'])
+        ->name('invoices.create')->middleware('can:invoice_create');
+
+    Route::post('/customers/{customer}/invoices', [InvoiceController::class, 'store'])
+        ->name('invoices.store')->middleware('can:invoice_store');
+
+    Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])
+        ->name('invoices.show')->middleware('can:invoice_view');
+
+    Route::get('/invoices/{invoice}/edit', [InvoiceController::class, 'edit'])
+        ->name('invoices.edit')->middleware('can:invoice_edit');
+
+    Route::put('/invoices/{invoice}', [InvoiceController::class, 'update'])
+        ->name('invoices.update')->middleware('can:invoice_edit');
+
+    Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])
+        ->name('invoices.destroy')->middleware('can:invoice_delete');
 
     Route::get('invoices/number/{numero}', [InvoiceController::class,'showByNumber'])
-        ->name('invoices.showByNumber');
-
-
+        ->name('invoices.showByNumber')->middleware('can:invoice_search_number');
 });
 
+// Users
 Route::middleware(['auth','verified'])->group(function () {
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
-    Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
-    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::put('/users/{user}/update', [UserController::class, 'update'])->name('users.update');
-    Route::delete('/users/{user}/delete', [UserController::class, 'destroy'])->name('users.destroy');
-    Route::get('users/search', [UserController::class, 'search'])->name('users.search');
+    Route::get('/users', [UserController::class, 'index'])
+        ->name('users.index')->middleware('can:user_list');
+
+    Route::get('/users/create', [UserController::class, 'create'])
+        ->name('users.create')->middleware('can:user_create');
+
+    Route::post('/users/store', [UserController::class, 'store'])
+        ->name('users.store')->middleware('can:user_store');
+
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])
+        ->name('users.edit')->middleware('can:user_edit');
+
+    Route::put('/users/{user}/update', [UserController::class, 'update'])
+        ->name('users.update')->middleware('can:user_edit');
+
+    Route::delete('/users/{user}/delete', [UserController::class, 'destroy'])
+        ->name('users.destroy')->middleware('can:user_delete');
+
+    Route::get('users/search', [UserController::class, 'search'])
+        ->name('users.search')->middleware('can:user_search');
+
+    Route::get('/users/{user}/permissions', [UserController::class, 'editPermissions'])
+        ->name('users.editPermissions')->middleware('can:user_update_permissions');
+
+    Route::put('/users/{user}/permissions', [UserController::class, 'updatePermissions'])
+        ->name('users.updatePermissions')->middleware('can:user_update_permissions');
 });
 
-Route::middleware(['auth', 'verified'])->group( function () {
+// Roles
+Route::middleware(['auth','verified'])->group(function () {
+    Route::get('/roles', [RoleController::class, 'index'])
+        ->name('roles.index')->middleware('can:role_list');
 
-    Route::get('/roles', [App\Http\Controllers\RoleController::class, 'index'])->name('roles.index');
+    Route::get('/roles/create', [RoleController::class, 'create'])
+        ->name('roles.create')->middleware('can:role_create');
 
+    Route::post('/roles', [RoleController::class, 'store'])
+        ->name('roles.store')->middleware('can:role_store');
 
-    Route::get('/roles/create', [App\Http\Controllers\RoleController::class, 'create'])->name('roles.create');
+    Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])
+        ->name('roles.edit')->middleware('can:role_edit');
 
+    Route::put('/roles/{role}', [RoleController::class, 'update'])
+        ->name('roles.update')->middleware('can:role_edit');
 
-    Route::post('/roles', [App\Http\Controllers\RoleController::class, 'store'])->name('roles.store');
+    Route::delete('/roles/{role}', [RoleController::class, 'destroy'])
+        ->name('roles.destroy')->middleware('can:role_delete');
+});
 
+// Language switch
+Route::get('/lang/{locale}', function ($locale) {
+    if (! in_array($locale, ['en', 'fr'])) {
+        abort(404);
+    }
+    Session::put('locale', $locale);
+    App::setLocale($locale);
+    return redirect()->back();
+})->name('lang.switch')->middleware('can:language_switch');
 
+// Payroll
+Route::middleware(['auth','verified'])->group(function () {
+    Route::get('/payrolls', [PayrollController::class,'index'])
+        ->name('payroll.index')->middleware('can:payroll_list');
 
-    Route::get('/roles/{role}/edit', [App\Http\Controllers\RoleController::class, 'edit'])->name('roles.edit');
-
-
-    Route::put('/roles/{role}', [App\Http\Controllers\RoleController::class, 'update'])->name('roles.update');
-
-
-    Route::delete('/roles/{role}', [App\Http\Controllers\RoleController::class, 'destroy'])->name('roles.destroy');
-    Route::get('/users/{user}/permissions', [UserController::class, 'editPermissions'])->name('users.editPermissions');
-    Route::put('/users/{user}/permissions', [UserController::class, 'updatePermissions'])->name('users.updatePermissions');
-
-
-
-    Route::get('/lang/{locale}', function ($locale) {
-        if (! in_array($locale, ['en', 'fr'])) {
-            abort(404);
-        }
-
-        Session::put('locale', $locale);
-        App::setLocale($locale);
-
-        return redirect()->back();
-    })->name('lang.switch');
-
-
-//payroll
-    Route::get('/payrolls', [PayrollController::class,'index'])->name('payroll.index');
-    Route::get('/payrolls/search', [PayrollController::class,'search'])->name('payroll.search');
+    Route::get('/payrolls/search', [PayrollController::class,'search'])
+        ->name('payroll.search')->middleware('can:payroll_search');
 
     Route::get('/employees/{employee}/payroll/create', [PayrollController::class, 'create'])
-        ->name('payroll.create');
+        ->name('payroll.create')->middleware('can:payroll_create');
 
     Route::post('/employees/{employee}/payroll', [PayrollController::class, 'store'])
-        ->name('payroll.store');
+        ->name('payroll.store')->middleware('can:payroll_store');
 
     Route::get('/employees/{employee}/payroll/edit', [PayrollController::class, 'edit'])
-        ->name('payroll.edit');
+        ->name('payroll.edit')->middleware('can:payroll_edit');
 
     Route::get('payroll/history', [PayrollController::class, 'history'])
-        ->name('payroll.history');
-
+        ->name('payroll.history')->middleware('can:payroll_history');
 
     Route::get('/payroll/{employee}/{payroll}', [PayrollController::class, 'show'])
-        ->name('payroll.show');
+        ->name('payroll.show')->middleware('can:payroll_view');
 
+    Route::get('/payroll/export', [PayrollController::class, 'export'])
+        ->name('payroll.export')->middleware('can:payroll_export');
 
-
-    Route::get('/payroll/export', [PayrollController::class, 'export'])->name('payroll.export');
-
-
-    Route::get('/payroll/view', [PayrollController::class, 'exportview'])->name('payroll.exportView');
-
-
+    Route::get('/payroll/view', [PayrollController::class, 'exportview'])
+        ->name('payroll.exportView')->middleware('can:payroll_export_view');
 });
-
 
 require __DIR__.'/auth.php';
