@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Perception;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PerceptionController extends Controller
 {
@@ -61,34 +63,24 @@ class PerceptionController extends Controller
 
     public function history()
     {
-        $driver = \DB::getDriverName();
+        $perceptions = Perception::whereNull('deleted_at')->get();
 
-        if ($driver === 'sqlite') {
 
-            $data = Perception::selectRaw("strftime('%m', created_at) as month, SUM(amount) as total")
-                ->whereNull('deleted_at')
-                ->groupBy('month')
-                ->orderBy('month')
-                ->get();
-        } else {
-            // MySQL
-            $data = Perception::selectRaw('MONTH(created_at) as month, SUM(amount) as total')
-                ->whereNull('deleted_at')
-                ->groupBy('month')
-                ->orderBy('month')
-                ->get();
-        }
-
+        $grouped = $perceptions->groupBy(function($item) {
+            return $item->created_at->format('Y-m');
+        });
 
         $labels = [];
         $totals = [];
 
-        foreach ($data as $row) {
-            $labels[] = date('F', mktime(0,0,0,$row->month,1)); // Convertir 01,02... en Janvier, Février
-            $totals[] = $row->total;
+        foreach ($grouped as $month => $items) {
+            $labels[] = Carbon::parse($month.'-01')->format('M Y');
+            $totals[] = $items->sum('amount');
         }
 
         return view('perceptions.history', compact('labels', 'totals'));
     }
+
+
 
 }
